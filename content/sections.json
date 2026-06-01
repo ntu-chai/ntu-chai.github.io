@@ -1,0 +1,36 @@
+{
+  "comment": "Section manifest. Edit slugs / nav labels / numbers here. Each slug must have a matching content/en/<slug>.md and content/zh/<slug>.md.",
+  "sections": [
+    {
+      "slug": "vision",
+      "num": "01",
+      "nav": { "en": "Vision",      "zh": "核心願景" },
+      "hero": true
+    },
+    {
+      "slug": "dialogue",
+      "num": "02",
+      "nav": { "en": "Dialogue",    "zh": "研發對話" }
+    },
+    {
+      "slug": "agents",
+      "num": "03",
+      "nav": { "en": "Agents",      "zh": "代理環境" }
+    },
+    {
+      "slug": "projects",
+      "num": "04",
+      "nav": { "en": "Projects",    "zh": "合作專案" }
+    },
+    {
+      "slug": "events",
+      "num": "05",
+      "nav": { "en": "Events",      "zh": "活動聯絡" }
+    },
+    {
+      "slug": "team",
+      "num": "06",
+      "nav": { "en": "Team",        "zh": "團隊人員" }
+    }
+  ]
+}
