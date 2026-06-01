@@ -35,7 +35,7 @@ layers:
     
 media:
   - kicker: MODE 3 · 共智
-    title: CHAI.md — 活的人文憲章
+    title: CHAI.md 
     src: assets/media/chai-md-ecosystem-loop-wide.gif
     alt: CHAI.md 生態系統動畫——認知與語言核心、共智演化與覺察環、治理與紮護外膜。
     caption: 一個數位生命體，由三層構造組成——認知與語言核心、共智演化與覺察環、治理與紮護外膜——持續閱讀、反思、自我治理，在文明尺度上守護語言與文化的多樣性。
