@@ -43,47 +43,6 @@ Then enable Pages in repo Settings → Pages → Source: `main` / `(root)`.
 `.nojekyll` is already in the repo, so GitHub Pages serves the files
 as-is.
 
-## Future workflow with collaborators
-
-When other people may also edit the GitHub repos, pull before you start, then
-pull again before pushing. The second pull catches changes that happened while
-you were editing.
-
-Update the source site:
-
-```bash
-cd /Users/amberber/Githubs/CHAI/chai-site-v2
-git pull --rebase origin main
-
-# edit files, then preview locally
-git status
-git add .
-git commit -m "Update CHAI site"
-git pull --rebase origin main
-git push origin main
-```
-
-Publish the same version to the organization homepage:
-
-```bash
-cd /Users/amberber/Githubs/CHAI/ntu-chai.github.io
-git pull --rebase origin main
-
-cd /Users/amberber/Githubs/CHAI
-rsync -av --delete --exclude='.git' --exclude='.DS_Store' --exclude='trip2026/' chai-site-v2/ ntu-chai.github.io/
-
-cd /Users/amberber/Githubs/CHAI/ntu-chai.github.io
-git status
-git add .
-git commit -m "Update CHAI homepage"
-git pull --rebase origin main
-git push origin main
-```
-
-Pulling `ntu-chai.github.io` before `rsync --delete` is important: it protects
-folders that collaborators added to the homepage repo, such as `trip2026/`,
-from being deleted because your local clone was out of date.
-
 ## File layout
 
 ```
@@ -135,26 +94,3 @@ build step. No npm. Pure HTML + CSS + vanilla JS + static files.
 
 Everything else — every paragraph, heading, bullet, link, table row — is
 in `/content/`.
-
-
-
-Edit your site in:
-
-chai-site-v2
-Then push it:
-
-cd /Users/amberber/Githubs/CHAI/chai-site-v2
-git add .
-git commit -m "Update CHAI site"
-git pull --rebase origin main
-git push origin main
-Then copy it again to the homepage repo and push:
-
-cd /Users/amberber/Githubs/CHAI
-rsync -av --delete --exclude='.git' --exclude='.DS_Store' --exclude='trip2026/' chai-site-v2/ ntu-chai.github.io/
-
-cd ntu-chai.github.io
-git add .
-git commit -m "Update CHAI homepage"
-git pull --rebase origin main
-git push origin main
