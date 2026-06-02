@@ -53,6 +53,13 @@ hermeneutic_loop:
   provenance_sub: 主張與來源（歸因追蹤）
 media:
   - placement: bottom
+    kicker: 人文研究代理循環 · 簡化版
+    title: 代理人之間如何交接工作
+    src: assets/media/chai_agentic_research_loop_simplified.drawio.svg
+    alt: 人文研究代理循環的簡化示意圖：研究者、主編、質疑員與四位專家代理人（取材、閱讀、詮釋、論述）在來源／記憶／出處層之間流轉。
+    caption: 代理研究循環的簡化藍圖。主編調度工作流程，質疑員逐項挑戰結論，四位專家代理人分別承擔取材、閱讀、詮釋與論述：所有產出皆綁定於共享的出處紀錄。
+    credit: 代理研究循環 · 概念圖
+  - placement: bottom
     kicker: CHAI 未來實驗室
     title: 走進代理人時代的人文實驗室
     src: assets/media/chai-promo-4k-trip.mp4
