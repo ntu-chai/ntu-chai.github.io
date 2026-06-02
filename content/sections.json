@@ -18,23 +18,18 @@
       "nav": { "en": "Agents",      "zh": "代理環境" }
     },
     {
-      "slug": "chai-md",
-      "num": "04",
-      "nav": { "en": "CHAI.md",     "zh": "CHAI.md" }
-    },
-    {
       "slug": "projects",
-      "num": "05",
+      "num": "04",
       "nav": { "en": "Projects",    "zh": "合作專案" }
     },
     {
       "slug": "events",
-      "num": "06",
+      "num": "05",
       "nav": { "en": "Events",      "zh": "活動聯絡" }
     },
     {
       "slug": "team",
-      "num": "07",
+      "num": "06",
       "nav": { "en": "Team",        "zh": "計畫成員" }
     }
   ]

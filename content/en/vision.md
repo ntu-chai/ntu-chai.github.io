@@ -34,10 +34,12 @@ layers:
     lede: AI as humanistic lifeform , CHAI.md, a living constitution that internalizes humanistic values and co-creates with us at civilizational scale.
 media:
   - kicker: MODE 3 · Co-civilization
-    title: CHAI.md — a living humanistic constitution
-    src: assets/media/chai-md-ecosystem-loop-wide.gif
-    alt: Animated diagram of the CHAI.md ecosystem — cognitive & linguistic core, symbiotic noosphere loop, autonomous governance membrane.
-    caption: A digital living organism whose three layers, Cognitive & Linguistic Core, Symbiotic Noosphere Loop, and Autonomous Governance Membrane, continuously read, reflect, and self-govern to preserve linguistic plurality at civilizational scale.
+    title: CHAI.md : a live visual prototype for the humanities AI digital organism
+    src: assets/chai-md-demo/index.html
+    iframe: true
+    ratio: "16 / 10"
+    alt: Interactive diagram of the CHAI.md ecosystem.
+    caption: A live interactive specimen. Explore the three organ layers of CHAI.md: cognitive and linguistic core, symbiotic noosphere loop, and autonomous governance membrane.This ecosystem continuously reads, reflects, and self-governs.
     credit: CHAI.md ecosystem · concept loop
 ---
 
