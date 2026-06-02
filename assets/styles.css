@@ -1316,6 +1316,42 @@ body[data-theme="dark"] .markdown-body code {
   opacity: 0.7;
 }
 
+.demo-embed-shell {
+  width: min(100%, 1440px);
+  margin: clamp(1.5rem, 3vw, 2.5rem) auto clamp(2rem, 4vw, 3.5rem);
+  padding: clamp(0.55rem, 1.4vw, 0.9rem);
+  border: 1px solid var(--hairline);
+  border-radius: 18px;
+  background: #07110f;
+  box-shadow:
+    0 1px 0 rgba(46, 58, 31, 0.04),
+    0 16px 36px -24px rgba(46, 58, 31, 0.45);
+}
+
+.demo-embed-frame {
+  display: block;
+  width: 100%;
+  height: min(86vh, 900px);
+  min-height: 680px;
+  border: 0;
+  border-radius: 12px;
+  background: #07110f;
+}
+
+@media (max-width: 760px) {
+  .demo-embed-shell {
+    margin-right: calc(var(--pad-x) * -0.5);
+    margin-left: calc(var(--pad-x) * -0.5);
+    border-radius: 12px;
+  }
+
+  .demo-embed-frame {
+    height: 82vh;
+    min-height: 620px;
+    border-radius: 8px;
+  }
+}
+
 @media (max-width: 560px) {
   .markdown-body { font-size: 1rem; line-height: 1.6; }
   .markdown-body blockquote { padding: 0.9rem 1rem; }
