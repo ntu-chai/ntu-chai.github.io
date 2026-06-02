@@ -37,7 +37,6 @@
   }
 
   function parseFrontmatter(text) {
-    text = text.replace(/\r\n?/g, '\n');
     const m = text.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
     if (!m) return { data: {}, body: text };
     const lines = m[1].split('\n')
@@ -185,8 +184,20 @@
       const caption = m.caption ? `<figcaption class="media-caption serif">${escapeHTML(m.caption)}</figcaption>` : '';
       const credit = m.credit ? `<div class="media-credit mono small">${escapeHTML(m.credit)}</div>` : '';
       let mediaEl;
-      const isVideo = /\.(mp4|webm|mov)$/i.test(src);
-      if (isVideo) {
+      const isVideo  = /\.(mp4|webm|mov)$/i.test(src);
+      const isIframe = m.iframe === true || /\.html?(\?|#|$)/i.test(src);
+      if (isIframe) {
+        // Aspect ratio overridable via `ratio` (e.g. "16/9", "4/3", "21/9"); default 16/9.
+        const ratio = m.ratio || '16 / 9';
+        const ratioStyle = `aspect-ratio: ${ratio};`;
+        mediaEl = `<iframe class="media-asset media-iframe"
+                      src="${escapeAttr(src)}"
+                      title="${escapeAttr(m.title || alt || 'Embedded page')}"
+                      loading="lazy"
+                      style="${ratioStyle}"
+                      referrerpolicy="no-referrer"
+                      sandbox="allow-scripts allow-same-origin allow-popups"></iframe>`;
+      } else if (isVideo) {
         mediaEl = `<video class="media-asset" src="${escapeAttr(src)}" autoplay loop muted playsinline aria-label="${escapeAttr(alt)}"></video>`;
       } else {
         // gif / png / jpg / webp / svg all use <img>

@@ -77,6 +77,24 @@ humanities scholar and an AI researcher to the same microphone...
 | `cta_primary.label`, `cta_primary.href` | First button (`href` like `"#projects"`) |
 | `cta_secondary.label`, `cta_secondary.href` | Second button |
 
+1. Demo extracted into the site (assets/chai-md-demo/)
+
+
+chai-site-v2/assets/chai-md-demo/
+├── index.html      ← entry page (paths fixed to be relative)
+├── styles.css
+└── app.js
+Only the static front-end was extracted. The app.py Flask backend was dropped — app.js doesn't fetch anything from the server, so the demo runs purely client-side. Total weight: ~40 KB (vs the gif's 5.3 MB).
+
+2. New iframe: true option on media: (assets/script.js)
+
+The renderer now picks the right element by type:
+
+.html URL → <iframe> (auto-detected, sandboxed with allow-scripts allow-same-origin allow-popups)
+.mp4 / .webm / .mov → <video autoplay loop muted playsinline>
+everything else → <img>
+Optional ratio: field controls the iframe's aspect ratio (default 16/9; vision uses 16/10).
+
 ### All other sections (`dialogue`, `agents`, `projects`, `events`, `team`)
 
 | Field | What it does |
@@ -238,9 +256,35 @@ media:
 **Supported file types:**
 - Animated: `.gif`, `.mp4`, `.webm`, `.mov` (videos auto-play, loop, muted, no controls)
 - Static: `.png`, `.jpg`, `.webp`, `.svg`
+- Embedded HTML: `.html` (auto-detected) — see "Embedding a live demo" below
 
 The frame has a dark backdrop so transparent or letter-boxed media sits nicely
 in both light and dark themes.
+
+### Embedding a live demo (HTML page in an iframe)
+
+If you have a self-contained HTML mini-site (its own `index.html` + `styles.css`
++ `app.js`), drop the folder under `assets/` and reference its entry HTML in
+the `media:` block:
+
+```yaml
+media:
+  - kicker: MODE 3 · Co-civilization
+    title: CHAI.md — a living humanistic constitution
+    src: assets/chai-md-demo/index.html  # entry page for the iframe
+    iframe: true                          # required to force iframe rendering
+    ratio: "16 / 10"                      # optional aspect ratio (default 16/9)
+    caption: A live interactive specimen…
+    credit: CHAI.md ecosystem · concept loop
+```
+
+The renderer detects `.html` automatically, so `iframe: true` is only required
+if you point at a non-`.html` URL (e.g. a Google Doc, a Figma frame). Common
+ratios: `16/9` (default), `16/10`, `4/3`, `21/9` for cinematic.
+
+When you drop a new demo, check that all paths inside its own `index.html`
+are **relative** (e.g. `styles.css`, not `/static/styles.css`). Absolute paths
+break when the demo is served from a subfolder.
 
 ## Markdown body — what's supported
 
