@@ -1056,11 +1056,11 @@ body[data-theme="dark"] .site-nav {
   background: linear-gradient(180deg, rgba(20,32,14,0.88) 0%, rgba(20,32,14,0.55) 80%, rgba(20,32,14,0) 100%);
 }
 
-/* Logo on dark: no multiply (would disappear); brighten + warm halo */
+/* Logo on dark: no multiply (would disappear); render as white + warm halo */
 body[data-theme="dark"] .brand-mark {
   mix-blend-mode: normal;
   filter:
-    brightness(1.35) saturate(1.15) contrast(1.08)
+    brightness(0) invert(1)
     drop-shadow(0 0 14px rgba(232,194,74,0.20));
 }
 body[data-theme="dark"] .brand::before {
