@@ -37,6 +37,7 @@
   }
 
   function parseFrontmatter(text) {
+    text = text.replace(/\r\n?/g, '\n');
     const m = text.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
     if (!m) return { data: {}, body: text };
     const lines = m[1].split('\n')

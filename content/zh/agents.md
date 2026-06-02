@@ -53,6 +53,13 @@ hermeneutic_loop:
   provenance_sub: 主張與來源（歸因追蹤）
 media:
   - placement: bottom
+    kicker: CHAI 教師研究工作流
+    title: 從問題到可審核證據
+    src: assets/media/chai-agentic-research-workflow.svg
+    alt: CHAI 教師研究工作流圖，從教師提問、工作流界定、本地運算、證據審查到修正精煉。
+    caption: 一次 CHAI 研究迭代的簡化工作流：提問、界定範圍、可重複管線、本地算力配置、證據審查與修正精煉。
+    credit: CHAI 未來實驗室 · 研究工作流
+  - placement: bottom
     kicker: CHAI 未來實驗室
     title: 走進代理人時代的人文實驗室
     src: assets/media/chai-promo-4k-trip.mp4

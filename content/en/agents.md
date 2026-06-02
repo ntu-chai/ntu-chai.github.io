@@ -53,6 +53,13 @@ hermeneutic_loop:
   provenance_sub: claims & sources (attribution trace)
 media:
   - placement: bottom
+    kicker: CHAI Faculty Research Workflow
+    title: From question to reviewed evidence
+    src: assets/media/chai-agentic-research-workflow.svg
+    alt: Diagram of the CHAI faculty research workflow from faculty question through scoped workflow, local compute, evidence review, and refinement.
+    caption: A simplified workflow view of one CHAI research pass: question, scoping, repeatable pipeline, booked compute, evidence review, and refinement.
+    credit: CHAI Future Lab · research workflow
+  - placement: bottom
     kicker: CHAI Future Lab 
     title: Inside the agentic humanities lab
     src: assets/media/chai-promo-4k-trip.mp4
