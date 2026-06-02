@@ -12,8 +12,8 @@ cta_secondary:
   href: "#events"
 layers:
   - num: MODE 1
-    title: 共讀
-    title_en: Co-reading
+    title: Co-reading
+    title_en: 共讀
     lede: AI 作為研究工具：多重版本、多元來源與豐富註解並存共讀，絕不將其扁平化（壓縮）為單一標準答案。
     items:
       - 自動摘要
