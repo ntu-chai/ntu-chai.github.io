@@ -53,7 +53,14 @@ hermeneutic_loop:
   provenance_sub: claims & sources (attribution trace)
 media:
   - placement: bottom
-    kicker: CHAI Future Lab 
+    kicker: Agentic research loop · simplified
+    title: How the agents pass work between each other
+    src: assets/media/chai_agentic_research_loop_simplified.drawio.svg
+    alt: A simplified diagram of the agentic humanities research loop：researcher, editor, critic, and the four expert agents reading, interpreting and arguing across the source / memory / provenance layers.
+    caption: A simplified blueprint of the agentic research loop. The Editor coordinates work, the Critic challenges every claim, and four Expert agents handle Collect, Read, Interpret and Argue：all bound by a shared provenance ledger.
+    credit: Agentic research loop · diagram
+  - placement: bottom
+    kicker: CHAI Future Lab
     title: Inside the agentic humanities lab
     src: assets/media/chai-promo-4k-trip.mp4
     alt: A short trailer-style video of the CHAI Future Lab.
