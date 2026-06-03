@@ -43,7 +43,82 @@ Then enable Pages in repo Settings → Pages → Source: `main` / `(root)`.
 `.nojekyll` is already in the repo, so GitHub Pages serves the files
 as-is.
 
-## Future workflow with collaborators
+## Daily edit workflow (current — simple, two commands)
+
+Edit files in this repo directly. One repo, no source/mirror split.
+
+```bash
+chai-cd                             # jump here
+git pull --rebase                   # 1) start — get any collaborator commits
+python3 -m http.server 8000         #    preview at http://localhost:8000
+# … edit files in content/ or assets/, refresh browser …
+chai-sync "What you changed"        # 2) finish — add + commit + pull-rebase + push
+```
+
+### The two shell helpers (defined in `~/.zshrc`)
+
+```bash
+alias chai-cd='cd /Users/amberber/Githubs/CHAI/ntu-chai.github.io'
+
+chai-sync() {
+  cd /Users/amberber/Githubs/CHAI/ntu-chai.github.io || return 1
+  local branch
+  branch=$(git rev-parse --abbrev-ref HEAD)
+  if [[ "$branch" != "main" ]]; then
+    echo "✗ chai-sync only runs from main. You are on: $branch"
+    echo "  Switch first:  git checkout main"
+    echo "  (or land this branch's work on main with: git cherry-pick <sha>)"
+    return 1
+  fi
+  git add . \
+    && git commit -m "${1:-Update CHAI homepage}" \
+    && git pull --rebase origin main \
+    && git push origin main
+}
+```
+
+### Why this 2-command workflow is safe (the rationale)
+
+Each piece exists for a specific failure mode:
+
+| Step | Failure it prevents |
+| --- | --- |
+| `git pull --rebase` **before** editing | You don't accidentally build on top of stale code. |
+| `git add .` | Stages every change in the repo, including new files. |
+| `git commit -m "…"` | Captures what you did with a message — never an empty commit thanks to `&&` chaining. |
+| `git pull --rebase origin main` **inside** chai-sync | Catches collaborator pushes that happened **while you were editing**. Without this, the final push would fail with `non-fast-forward`. |
+| `git push origin main` | The actual upload. Only runs if every previous step succeeded (because of `&&`). |
+| `branch != "main"` guard | Refuses to push if you're sitting on a leftover feature branch. Push to `main` from a stale local-main is how the homepage gets out of sync. |
+
+The `&&` chain means: **if any step fails, the rest are skipped.** So you never push uncommitted changes, never commit without testing the rebase, never silently overwrite collaborator work.
+
+### If `git pull --rebase` hits a conflict
+
+A collaborator changed the same file you did. Resolve like this:
+
+```bash
+# git lists which file(s) conflict. Open each, look for the markers:
+#   <<<<<<< HEAD            ← what the collaborator wrote
+#   their version
+#   =======
+#   your version
+#   >>>>>>> your-commit
+# Edit to keep what you want, then:
+git add <file>
+git rebase --continue
+
+# If you change your mind:
+git rebase --abort
+```
+
+`.DS_Store` conflict? `git rm -f .DS_Store && git rebase --continue`.
+
+## Legacy mirror workflow (chai-site-v2 → ntu-chai.github.io)
+
+> Kept for reference. The current workflow is **Daily edit workflow** above —
+> edit `ntu-chai.github.io` directly. The block below dates from when
+> `chai-site-v2` was a private source repo and changes had to be mirrored
+> into the public homepage.
 
 When other people may also edit the GitHub repos, pull before you start, then
 pull again before pushing. The second pull catches changes that happened while

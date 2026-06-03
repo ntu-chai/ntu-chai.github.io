@@ -403,21 +403,30 @@
 
       if (title && data.hero_title) {
         // Split the title on the accent token, if any, so part of it can be italicised.
+        // Also respect a literal `<br>` inside hero_title for hard line-breaks
+        // (the only HTML tag we honour here — safer than allowing arbitrary HTML).
+        const appendWithBreaks = (parent, text) => {
+          const segs = String(text).split(/<br\s*\/?>/i);
+          segs.forEach((seg, i) => {
+            if (i > 0) parent.appendChild(document.createElement('br'));
+            if (seg) parent.appendChild(document.createTextNode(seg));
+          });
+        };
+        title.innerHTML = '';
         const accent = data.hero_title_accent;
         if (accent && data.hero_title.includes(accent)) {
           const parts = data.hero_title.split(accent);
-          title.innerHTML = '';
           parts.forEach((p, i) => {
-            title.appendChild(document.createTextNode(p));
+            appendWithBreaks(title, p);
             if (i < parts.length - 1) {
               const em = document.createElement('span');
               em.className = 'accent';
-              em.textContent = accent;
+              appendWithBreaks(em, accent);
               title.appendChild(em);
             }
           });
         } else {
-          title.textContent = data.hero_title;
+          appendWithBreaks(title, data.hero_title);
         }
       }
 

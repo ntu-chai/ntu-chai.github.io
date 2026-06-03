@@ -1,7 +1,7 @@
 ---
 title: 核心願景
 kicker: CHAI 未來實驗室  臺大 2026
-hero_title: 人文 AI 共智未來實驗室
+hero_title: "人文AI共智未來<br>實驗室"
 hero_title_accent: 人文
 hero_sub: 由人文主導的研究計畫，設於國立臺灣大學文學院：跨系跨院，共同打造人文AI。
 cta_primary:
