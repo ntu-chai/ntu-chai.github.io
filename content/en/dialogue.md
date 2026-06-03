@@ -33,4 +33,4 @@ Each conversation produces:
 3. Where appropriate, a **follow-up project** in one of the three pillars
 
 If you would like to nominate a guest or propose a topic, please feel free to write to
-[chai@liberal.ntu.edu.tw](mailto:chai@liberal.ntu.edu.tw).
+[chaiflntu@gmail.com](mailto:chaiflntu@gmail.com).

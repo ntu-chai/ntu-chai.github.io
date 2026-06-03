@@ -34,4 +34,4 @@ CHAI Chat 是實驗室的公開對話系列。每一集都讓一位人文學者�
 3. 適當時，**衍生計畫**：進入三大主軸的研究議程
 
 若您想推薦對談來賓或提案主題，歡迎來信
-[chai@liberal.ntu.edu.tw](mailto:chai@liberal.ntu.edu.tw)。
+[chaiflntu@gmail.com](mailto:chaiflntu@gmail.com)。
