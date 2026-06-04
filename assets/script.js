@@ -37,9 +37,9 @@
   }
 
   function parseFrontmatter(text) {
-    const m = text.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+    const m = text.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
     if (!m) return { data: {}, body: text };
-    const lines = m[1].split('\n')
+    const lines = m[1].split(/\r?\n/)
       .filter(l => l.trim() && !l.trim().startsWith('#'))
       .map(l => ({ indent: l.match(/^ */)[0].length, text: l.trim() }));
 
