@@ -113,6 +113,31 @@
   const cache = { en: {}, zh: {} };
   let sections = []; // loaded from /content/sections.json
 
+  async function inlineBrandLogo() {
+    const img = document.querySelector('img.brand-mark[src$=".svg"], img.brand-mark[src*=".svg?"]');
+    if (!img) return;
+
+    try {
+      const url = new URL(img.getAttribute('src'), location.href);
+      url.search = '';
+      const r = await fetch(url.href, { cache: 'no-cache' });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+
+      const doc = new DOMParser().parseFromString(await r.text(), 'image/svg+xml');
+      const svg = doc.documentElement;
+      if (!svg || svg.nodeName.toLowerCase() !== 'svg' || svg.querySelector('parsererror')) {
+        throw new Error('Invalid SVG');
+      }
+
+      svg.classList.add('brand-mark');
+      svg.setAttribute('aria-hidden', 'true');
+      svg.setAttribute('focusable', 'false');
+      img.replaceWith(document.importNode(svg, true));
+    } catch (e) {
+      console.warn('Could not inline brand logo; using image fallback.', e);
+    }
+  }
+
   async function fetchSections() {
     try {
       const r = await fetch('content/sections.json', { cache: 'no-cache' });
@@ -680,6 +705,7 @@
 
   // ───────── boot ─────────
   async function boot() {
+    await inlineBrandLogo();
     initTheme();
     await fetchSections();
     initLang();              // builds nav + kicks off content fetches

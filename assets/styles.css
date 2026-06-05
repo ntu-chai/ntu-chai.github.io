@@ -187,7 +187,26 @@ h1, h2, h3, .page-title, .section-title, .subsection-title,
   filter: contrast(1.04) saturate(1.05);
 }
 .brand:hover .brand-mark {
-  transform: rotate(-1.5deg) scale(1.03);
+  transform: none;
+}
+.brand-mark #robot-head-animated {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transform: translateY(0);
+}
+.brand:hover .brand-mark #robot-head-animated {
+  animation: robotHeadPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes robotHeadPop {
+  0% {
+    transform: translateY(3px);
+  }
+  70% {
+    transform: translateY(-1px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 .nav-links {
