@@ -1,4 +1,15 @@
 # CHAI v2 — content-managed site
+## Daily edit workflow (current — simple, two commands)
+
+Edit files in this repo directly. One repo, no source/mirror split.
+
+```bash
+chai-cd                             # jump here
+git pull --rebase                   # 1) start — get any collaborator commits
+python3 -m http.server 8000         #    preview at http://localhost:8000
+# … edit files in content/ or assets/, refresh browser …
+chai-sync "What you changed"        # 2) finish — add + commit + pull-rebase + push
+``` 
 
 Static multi-page site for the **CHAI** lab at NTU College of Liberal Arts.
 
