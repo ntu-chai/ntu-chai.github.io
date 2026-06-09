@@ -38,6 +38,6 @@ team:
     dept: "Co-Intelligence Humanitites AI Future Lab"
     url: "https://lope.linguistics.ntu.edu.tw/people/da-chen-lian/"
   - role: Intern
-    name: Tzi-Quian Huang
+    name: Zi-Qian Huang
     dept: "Department of Foreign Languages and Literatures"
 ---
