@@ -23,10 +23,10 @@ team:
     dept: 哲學系
   - role: 副執行長
     name: 王伯雅
-    dept: ""
+    dept: "人文AI共智未來實驗室"
   - role: 研究運算總監
     name: 連大成
-    dept: ""
+    dept: "人文AI共智未來實驗室"
   - role: 實習生
     name: 黃子倩
     dept: "外文系"
