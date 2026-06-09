@@ -22,7 +22,7 @@ team:
   - role: Co-PI
     name: May-Shine Lin
     dept: Department of History
-    url: "https://history.ntu.edu.tw/web/team/team_in.jsp?fp_id=FP1765788881818&lang=en&npage=1"
+    url: "https://history.ntu.edu.tw/web/team/team_in.jsp?lang=tw&fp_id=FP1765791243080&npage=2"
     
   - role: Co-PI
     name: Hsei-Yung Hsu
