@@ -22,7 +22,7 @@ team:
   - role: 共同主持人
     name: 林美香
     dept: 歷史系
-    url: "https://scholars.lib.ntu.edu.tw/lucky-search?index=legacy-id&value=rp200606"
+    url: "https://history.ntu.edu.tw/web/team/team_in.jsp?fp_id=FP1765788881818&lang=tw&npage=1"
   - role: 共同主持人
     name: 徐學庸
     dept: 哲學系
@@ -39,7 +39,6 @@ team:
     name: 黃子倩
     dept: "外文系"
 ---
-
 
 
 
