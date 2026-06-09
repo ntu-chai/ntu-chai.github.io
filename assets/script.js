@@ -239,13 +239,20 @@
   }
 
   function renderTeamGrid(team) {
-    const cards = team.map(p => `
-      <li class="person">
-        <div class="p-role mono">${escapeHTML(p.role || '')}</div>
-        <div class="p-name">${escapeHTML(p.name || '')}</div>
-        ${p.dept ? `<div class="p-dept serif">${escapeHTML(p.dept)}</div>` : ''}
-      </li>
-    `).join('');
+    const cards = team.map(p => {
+      const url = p.url || p.href || p.website || '';
+      const name = escapeHTML(p.name || '');
+      const nameHtml = url
+        ? `<a class="p-name-link" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${name}</a>`
+        : name;
+      return `
+        <li class="person">
+          <div class="p-role mono">${escapeHTML(p.role || '')}</div>
+          <div class="p-name">${nameHtml}</div>
+          ${p.dept ? `<div class="p-dept serif">${escapeHTML(p.dept)}</div>` : ''}
+        </li>
+      `;
+    }).join('');
     return `<ol class="people-grid">${cards}</ol>`;
   }
 
@@ -526,7 +533,7 @@
       .replace(/"/g, '&quot;');
   }
   function escapeAttr(s) {
-    return String(s).replace(/"/g, '&quot;');
+    return escapeHTML(s).replace(/'/g, '&#39;');
   }
 
   // ───────── nav builders ─────────

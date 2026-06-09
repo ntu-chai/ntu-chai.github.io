@@ -126,6 +126,7 @@ team:
   - role: Principal Investigator
     name: Cheng Yu-yu
     dept: Department of Chinese Literature / Dean, College of Liberal Arts
+    url: https://example.edu/profile
   - role: Co-PI
     name: Wu Tsung-lin
     dept: Department of Electrical Engineering / Dean, EECS
@@ -133,7 +134,11 @@ team:
 ```
 
 - `role` shows in golden small-caps at the top of the card
-- `name` is the large display name
+- `name` is the large display name. If the entry has `url`, the name becomes
+  a clickable link.
+- `url` is optional. Use the person's faculty page, lab page, or personal
+  website. Add it to both `content/en/team.md` and `content/zh/team.md` for
+  the same person if both languages should link out.
 - `dept` is the smaller serif line underneath. Use `dept: ""` (with empty
   quotes) if there's no department to show.
 

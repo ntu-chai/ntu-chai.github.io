@@ -1400,6 +1400,17 @@ body[data-theme="dark"] .people-grid {
   color: var(--fg);
   font-variation-settings: "opsz" 36;
 }
+.people-grid .p-name-link {
+  color: inherit;
+  text-decoration: none;
+  text-underline-offset: 0.14em;
+  transition: color 0.2s, text-decoration-color 0.2s;
+}
+.people-grid .p-name-link:hover,
+.people-grid .p-name-link:focus-visible {
+  color: var(--burnt);
+  text-decoration: underline;
+}
 .people-grid .p-dept {
   font-size: 0.95rem;
   color: var(--ink-soft);
