@@ -29,6 +29,13 @@ contact:
 **人文、自然與科技的交會：2026望古語言所AI實務營**
 地點：望古
 
+## Monthly reports
+
+每月活動與進度摘要報告：
+
+| 月 | 報告 | Notes |
+| --- | --- | --- |
+| 六月 2026 | [View report](https://drive.google.com/file/d/1oThD1pLEKAPpiPzgTDGJKPyprXgwWNu0/view?usp=sharing) | PDF |
 
 ## 招募
 

@@ -30,6 +30,14 @@ Venue: College of Liberal Arts
 **2026 Graduate Institute of Linguistics AI Camp**
 Venue: Wanggu
 
+## Monthly reports
+
+Brief monthly records of CHAI activities, events, and lab progress.
+
+| Month | Report | Notes |
+| --- | --- | --- |
+| June 2026 | [View report](https://drive.google.com/file/d/1oThD1pLEKAPpiPzgTDGJKPyprXgwWNu0/view?usp=sharing) | PDF |
+
 
 ## Open calls
 
