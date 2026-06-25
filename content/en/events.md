@@ -9,17 +9,24 @@ contact:
 
 ## 2026 events
 
+### Upcoming events
 
+| Date | Event | Venue / notes |
+| --- | --- | --- |
+| Monday, June 29, 2026 | University of Illinois Urbana-Champaign (UIUC) campus visit; CHAI Center Room 513 opening ceremony; CHAT exchange session | NTU Humanities Building, Room 513 |
+| Wednesday, July 22-Thursday, July 23, 2026 | July workshop for humanities scholars | **Registration now open!** |
 
-### MAY 2026 — Lecture
+### Past events
+
+#### MAY 2026 — Lecture
 **Po-Ya Angela Wang @ NTU — "Language & Computers"**
 College of Liberal Arts.
 
-### JUN 2026 — Lecture
+#### JUN 2026 — Lecture
 **Shu-Kai Hsieh @ NTU — "CHAI Future Lab"**
 College of Liberal Arts.
 
-### JUN 2026 — Workshop
+#### JUN 2026 — Workshop
 **CHAI Chat #01 — open conversation on humanities × AI**
 Venue: TBA.
 
