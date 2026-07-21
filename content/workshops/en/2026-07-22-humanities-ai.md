@@ -23,7 +23,9 @@ days:
         title: Getting Started with Claude
         speaker: Po-Ya Angela Wang
         details: "Lab: system setup, concept introduction, Dispatch, and Claude Design demonstration"
-        materials: []
+        materials:
+          - label: Getting Started with Claude
+            url: https://drive.google.com/file/d/1TGqO1kr7GtG8330A3ELizcE6tnp7LIfH/view?usp=sharing
       - time: 12:00–13:00
         title: Lunch break
         kind: meal
@@ -31,12 +33,16 @@ days:
         title: Foundational Research Applications with Claude
         speaker: 陳品而
         details: "Lab: Claude Code"
-        materials: []
+        materials:
+          - label: Foundational Research Applications with Claude
+            url: https://docs.google.com/presentation/d/1MvKZKqBNLl4v1DiNWnZJ-5azl1NVRQX0mXfrc-xYuPM/edit?usp=sharing
       - time: 14:10–15:10
         title: Building an AI Research Workflow
         speaker: 陳章伶
         details: "Lab: Claude Agent"
-        materials: []
+        materials:
+          - label: Building an AI Research Workflow
+            url: https://docs.google.com/presentation/d/1-xQgfSR15aAVblJeyQtdke9nQC18Yod7z1Qhmv51xo4/edit?usp=sharing
       - time: 15:10–15:30
         title: Tea break
         kind: break
@@ -44,7 +50,9 @@ days:
         title: Claude × Research Agents
         speaker: Po-Ya Angela Wang
         details: "Lab: integrated practice and research-idea Artifacts demonstration"
-        materials: []
+        materials:
+          - label: Claude × Research Agents
+            url: https://drive.google.com/file/d/1TGqO1kr7GtG8330A3ELizcE6tnp7LIfH/view?usp=sharing
       - time: 16:30
         title: Closing remarks
         kind: closing
@@ -57,7 +65,7 @@ days:
       - time: 09:15–10:15
         title: Humanities AI Research and Applications
         speaker: "BigObject: 許有進博士、劉安陸博士, and Dr. Edward Yu"
-        materials: 
+        materials:
           - label: BigObject 官方網站
             url: https://bigobject.io/
       - time: 10:15–10:30
@@ -67,7 +75,6 @@ days:
         title: Research Collaboration Matching and Consultations
         details: Faculty interested in collaborating with the CHAI team are welcome to join the discussion.
         materials: []
-           
 
 ---
 

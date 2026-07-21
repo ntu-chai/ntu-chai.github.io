@@ -23,7 +23,9 @@ days:
         title: Claude 初探
         speaker: 王伯雅
         details: "Lab: 系統設定、概念簡介、Dispatch 與 Claude Design 展示"
-        materials: []
+        materials:
+          - label: Claude 初探
+            url: https://drive.google.com/file/d/1TGqO1kr7GtG8330A3ELizcE6tnp7LIfH/view?usp=sharing
       - time: 12:00–13:00
         title: 午餐休息
         kind: meal
@@ -31,12 +33,16 @@ days:
         title: Claude 研究基礎應用
         speaker: 陳品而
         details: "Lab: Claude Code"
-        materials: []
+        materials:
+          - label: Claude 研究基礎應用
+            url: https://docs.google.com/presentation/d/1MvKZKqBNLl4v1DiNWnZJ-5azl1NVRQX0mXfrc-xYuPM/edit?usp=sharing
       - time: 14:10–15:10
         title: 用 AI 打造研究工作流
         speaker: 陳章伶
         details: "Lab: Claude Agent"
-        materials: []
+        materials:
+          - label: 用 AI 打造研究工作流
+            url: https://docs.google.com/presentation/d/1-xQgfSR15aAVblJeyQtdke9nQC18Yod7z1Qhmv51xo4/edit?usp=sharing
       - time: 15:10–15:30
         title: 茶敘休息
         kind: break
@@ -44,7 +50,9 @@ days:
         title: Claude × 研究智能體 Agents
         speaker: 王伯雅
         details: "Lab: 整合實作＋研究想法展示 Artifacts"
-        materials: []
+        materials:
+          - label: Claude × 研究智能體 Agents
+            url: https://drive.google.com/file/d/1TGqO1kr7GtG8330A3ELizcE6tnp7LIfH/view?usp=sharing
       - time: 16:30
         title: 小結
         kind: closing
@@ -67,8 +75,7 @@ days:
         title: 合作媒合與研究晤談
         details: "有意與 CHAI 團隊合作的老師，歡迎前來交流"
         materials: []
-          
-     
+
 ---
 
 教學資料將於內容備妥後陸續新增。
