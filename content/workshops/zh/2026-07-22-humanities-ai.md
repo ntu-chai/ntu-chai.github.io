@@ -38,7 +38,7 @@ days:
             url: https://docs.google.com/presentation/d/1MvKZKqBNLl4v1DiNWnZJ-5azl1NVRQX0mXfrc-xYuPM/edit?usp=sharing
       - time: 14:10–15:10
         title: 用 AI 打造研究工作流
-        speaker: 陳章伶
+        speaker: 陳韋伶
         details: "Lab: Claude Agent"
         materials:
           - label: 用 AI 打造研究工作流
