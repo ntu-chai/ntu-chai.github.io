@@ -36,14 +36,20 @@ test('workshop page has content and live renderer hosts', () => {
   assert.match(html, /<div class="workshops-host" data-workshops aria-busy="true">[\s\S]*?Loading workshops…[\s\S]*?<\/div>/);
 });
 
-test('workshop renderer loads immediately before the version-matched SPA script', () => {
+test('frontmatter parser and workshop renderer load before the version-matched SPA script', () => {
+  const frontmatterIndex = html.indexOf('<script src="assets/frontmatter.js?v=20260721-workshops"></script>');
   const workshopIndex = html.indexOf('<script src="assets/workshops.js?v=20260721-workshops"></script>');
   const appIndex = html.indexOf('<script src="assets/script.js?v=20260721-workshops"></script>');
-  assert.ok(workshopIndex >= 0);
+  assert.ok(frontmatterIndex >= 0);
+  assert.ok(workshopIndex > frontmatterIndex);
   assert.ok(appIndex > workshopIndex);
 });
 
 test('SPA provides workshop loading and rendering integration', () => {
+  assert.match(script, /const parseFrontmatter = window\.CHAIFrontmatter\.parseFrontmatter/);
+  assert.doesNotMatch(script, /function (?:coerce|parseFrontmatter)\(/);
+  assert.match(script, /Could not start the site: frontmatter parser failed to load\./);
+  assert.match(script, /querySelectorAll\('\[data-content\], \[data-workshops\]'\)/);
   for (const name of ['fetchWorkshopManifest', 'fetchWorkshop', 'renderWorkshopSection']) {
     assert.match(script, new RegExp('function ' + name + '\\('));
   }

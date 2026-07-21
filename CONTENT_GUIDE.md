@@ -1,29 +1,44 @@
 # How to update the CHAI site
 
 This site reads its visible content from plain text files in the `content/`
-folder. You don't need to touch the HTML, CSS or JS to change what's on the
-page — just edit a markdown file, commit, and push.
+folder. Routine page and workshop updates do not require changes to HTML, CSS,
+or JavaScript: edit the paired content files (and any workshop manifest or
+materials), preview them, commit, and push.
 
 ## Folder layout
 
 ```
 content/
-├── sections.json          ← controls the 6 navigation sections (order, labels)
+├── sections.json          ← controls the 7 navigation sections (order, labels)
 ├── en/                    ← English text
 │   ├── vision.md
 │   ├── dialogue.md
 │   ├── agents.md
 │   ├── projects.md
 │   ├── events.md
-│   └── team.md
-└── zh/                    ← Traditional Chinese text (same six files)
+│   ├── team.md
+│   └── workshops.md       ← English introduction to the workshop section
+├── zh/                    ← Traditional Chinese text (same seven files)
     ├── vision.md
     ├── dialogue.md
     ├── agents.md
     ├── projects.md
     ├── events.md
-    └── team.md
+    ├── team.md
+    └── workshops.md       ← Traditional Chinese workshop introduction
+└── workshops/
+    ├── index.json         ← ordered list of workshop slugs
+    ├── en/                ← one English schedule per workshop slug
+    └── zh/                ← matching Traditional Chinese schedules
+
+assets/
+└── materials/             ← local workshop handouts and slides
 ```
+
+In full-path form, the workshop section introductions are
+`content/en/workshops.md` and `content/zh/workshops.md`; the schedule manifest
+is `content/workshops/index.json`, and its paired files live in
+`content/workshops/en/` and `content/workshops/zh/`.
 
 **One file per section per language.** Edit both `en/<slug>.md` and
 `zh/<slug>.md` to keep both languages in sync.
@@ -110,6 +125,214 @@ Optional ratio: field controls the iframe's aspect ratio (default 16/9; vision u
 | `principles` | Array of design principles → renders as a 2×2 card grid |
 | `hermeneutic_loop` | Object → renders the agent-flow diagram |
 | `media` | Array of images / gifs / videos → renders as captioned figure blocks |
+
+## Maintaining workshops
+
+Each workshop has two localized schedule files and one shared slug. The site
+loads the slugs from `content/workshops/index.json`, then loads the matching
+file from `content/workshops/en/` or `content/workshops/zh/`.
+
+### Adding or updating a workshop
+
+1. Choose a unique slug in the form `<start-date>-<short-name>`, for example
+   `2026-08-05-research-tools`. Including the day allows more than one workshop
+   in the same month.
+2. Copy an existing pair into
+   `content/workshops/en/<workshop-slug>.md` and
+   `content/workshops/zh/<workshop-slug>.md`. Keep dates, day order, session
+   order, session times, `kind` values, and material URLs synchronized while
+   localizing visible text such as titles, labels, speakers, and details.
+3. Add the slug once to the `workshops` array in
+   `content/workshops/index.json`. Slugs must be unique lowercase letters,
+   numbers, and hyphens.
+4. Put local files under `assets/materials/<year>/<workshop-slug>/` and add
+   their links to both language files.
+5. Preview via a local server, open the Workshops section, expand the workshop
+   and its teaching sessions, and test the language toggle and every link.
+6. Commit both languages, assets, and manifest together.
+
+For example, the manifest may contain two distinct workshops in one month:
+
+```json
+{
+  "workshops": [
+    "2026-08-05-research-tools",
+    "2026-08-19-digital-archives"
+  ]
+}
+```
+
+### Workshop file fields
+
+Workshop-level fields:
+
+| Field | Required? | What it does |
+| --- | --- | --- |
+| `title` | Required | Localized workshop title. |
+| `start_date` | Required | First day as `YYYY-MM-DD`; used for display and archive ordering/grouping. |
+| `end_date` | Required | Last day as `YYYY-MM-DD`; used for automatic status. |
+| `days` | Required | Ordered array of day records. |
+| `subtitle` | Optional | Localized secondary title metadata. |
+| `venue` | Optional | Localized venue shown on the workshop card. |
+| `status_override` | Optional | Only `upcoming`, `past`, or empty (`""`). Empty or omitted means automatic status. |
+| `registration_url` | Optional | Registration link metadata. Use an HTTPS URL. |
+| `label` | Optional | Localized workshop label metadata. |
+
+Each item in `days` has:
+
+| Field | Required? | What it does |
+| --- | --- | --- |
+| `date` | Required | Calendar date as `YYYY-MM-DD`. |
+| `label` | Required | Localized heading for the day. |
+| `sessions` | Required | Ordered array of schedule rows. |
+
+Each session has:
+
+| Field | Required? | What it does |
+| --- | --- | --- |
+| `time` | Required | Display time or time range. |
+| `title` | Required | Localized session title. |
+| `speaker` | Optional | Localized instructor or speaker. |
+| `details` | Optional | Localized short description. Quote a value containing a colon. |
+| `kind` | Optional | Defaults to `session` (teaching). Allowed noninteractive kinds are `registration`, `break`, `meal`, and `closing`. |
+| `materials` | Optional (teaching sessions only) | Array of material records. Missing `materials` or `[]` displays **Coming soon** / **即將上線**. |
+
+Each item in `materials` has:
+
+| Field | Required? | What it does |
+| --- | --- | --- |
+| `label` | Required | Localized link text. |
+| `url` | Required | Repository-relative or external material URL. |
+
+### Status, archive, and schedule behavior
+
+- `status_override` set to exactly `upcoming` or `past` wins even when the dates
+  are invalid. An empty, omitted, or unsupported `status_override` value uses
+  automatic `end_date` classification instead.
+- For automatic classification, a valid `end_date` on or after the visitor's
+  local today is upcoming; a date before today is past. Automatic
+  classification with a missing or invalid `end_date` remains visible under
+  **Other workshops** / **其他工作坊**.
+- Upcoming workshops are ordered by `start_date` earliest-first. Past workshops
+  are ordered by `start_date` newest-first and grouped under a localized year
+  and month heading. Multiple workshops in the same month are supported.
+- A teaching session (`kind` omitted or `kind: session`) renders its title as a
+  control that expands the materials panel. Missing `materials` or
+  `materials: []` shows **Coming soon** / **即將上線**. Registration, break,
+  meal, and closing rows remain plain nonteaching rows without a materials
+  panel.
+- Material links may be repository-relative paths beginning `assets/...` or
+  `content/...`, or external HTTPS URLs only. External links open in a new tab;
+  local links stay in the current tab. You may mix local and external links in
+  one materials array.
+
+### Copyable workshop templates
+
+Copy both templates, give them the same filename slug, and localize visible
+text without changing their structure. The sample Google Drive URL is only a
+placeholder: replace `FILE_ID` with the real file ID before publishing.
+
+English (`content/workshops/en/2026-08-05-research-tools.md`):
+
+```yaml workshop-template-en
+---
+title: Research Tools Workshop
+subtitle: Two days of practical methods
+start_date: 2026-08-05
+end_date: 2026-08-06
+venue: NTU Humanities Building
+status_override: ""
+registration_url: https://example.org/register
+label: August workshop
+days:
+  - date: 2026-08-05
+    label: Day 1 · Foundations
+    sessions:
+      - time: 09:30–10:30
+        title: Building a research workflow
+        speaker: Workshop team
+        details: "Lab: setup and guided practice"
+        materials:
+          - label: Workshop PDF
+            url: assets/materials/2026/2026-08-05-research-tools/workbook.pdf
+          - label: Shared Google Drive folder
+            url: https://drive.google.com/file/d/FILE_ID/view
+      - time: 10:30–10:45
+        title: Break
+        kind: break
+  - date: 2026-08-06
+    label: Day 2 · Applications
+    sessions:
+      - time: 10:00–11:00
+        title: Applying the workflow
+        speaker: Workshop team
+        details: Guided project session
+        materials: []
+---
+
+Replace this introduction with a short English workshop description.
+```
+
+Traditional Chinese
+(`content/workshops/zh/2026-08-05-research-tools.md`):
+
+```yaml workshop-template-zh
+---
+title: 研究工具工作坊
+subtitle: 兩天實作方法課程
+start_date: 2026-08-05
+end_date: 2026-08-06
+venue: 臺大人文大樓
+status_override: ""
+registration_url: https://example.org/register
+label: 八月工作坊
+days:
+  - date: 2026-08-05
+    label: 第一天 · 基礎
+    sessions:
+      - time: 09:30–10:30
+        title: 建立研究工作流
+        speaker: 工作坊團隊
+        details: "實作：設定與引導練習"
+        materials:
+          - label: 工作坊講義 PDF
+            url: assets/materials/2026/2026-08-05-research-tools/workbook.pdf
+          - label: Google Drive 共用資料夾
+            url: https://drive.google.com/file/d/FILE_ID/view
+      - time: 10:30–10:45
+        title: 休息
+        kind: break
+  - date: 2026-08-06
+    label: 第二天 · 應用
+    sessions:
+      - time: 10:00–11:00
+        title: 應用研究工作流
+        speaker: 工作坊團隊
+        details: 專題引導實作
+        materials: []
+---
+
+請以簡短的繁體中文工作坊說明取代本段文字。
+```
+
+### Adding local materials and links
+
+Create the workshop directory and place the file at, for example,
+`assets/materials/2026/2026-08-05-research-tools/workbook.pdf`. Link it from a
+teaching session like this:
+
+```yaml
+materials:
+  - label: Workshop PDF
+    url: assets/materials/2026/2026-08-05-research-tools/workbook.pdf
+  - label: Project notes
+    url: content/files/research-tools-notes.pdf
+  - label: Shared folder
+    url: https://drive.google.com/file/d/FILE_ID/view
+```
+
+Use the same URLs in the English and Traditional Chinese files, but localize
+each `label`. Replace `FILE_ID`; do not publish the placeholder URL.
 
 ## Structured frontmatter components
 

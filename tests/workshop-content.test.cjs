@@ -2,33 +2,15 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const vm = require('node:vm');
+const { coerce, parseFrontmatter } = require('../assets/frontmatter.js');
 
 const root = path.join(__dirname, '..');
 const slug = '2026-07-22-humanities-ai';
 const languages = ['en', 'zh'];
-const script = fs.readFileSync(path.join(root, 'assets/script.js'), 'utf8');
 
 function read(relativePath) {
   return fs.readFileSync(path.join(root, relativePath), 'utf8');
 }
-
-function functionSource(name) {
-  const start = script.indexOf(`  function ${name}(`);
-  assert.ok(start >= 0, `missing ${name}`);
-  const open = script.indexOf('{', start);
-  let depth = 0;
-  let end = open;
-  for (; end < script.length; end++) {
-    if (script[end] === '{') depth++;
-    if (script[end] === '}' && --depth === 0) break;
-  }
-  return script.slice(start, end + 1).trim();
-}
-
-const parseFrontmatter = vm.runInNewContext(
-  `${functionSource('coerce')}\n${functionSource('parseFrontmatter')}\nparseFrontmatter`,
-);
 
 test('manifest validation permits an additional unique valid workshop slug', () => {
   assert.doesNotThrow(() => validateManifest({
@@ -66,6 +48,18 @@ Fixture body.`);
   const materials = parsed.data.days[0].sessions[0].materials;
   assert.ok(Array.isArray(materials));
   assert.equal(materials.length, 0);
+});
+
+test('frontmatter scalar coercion preserves behavior and returns fresh empty arrays', () => {
+  assert.equal(coerce(' true '), true);
+  assert.equal(coerce('42'), 42);
+  assert.equal(coerce('"value"'), 'value');
+  assert.equal(coerce('null'), null);
+  const first = coerce('[]');
+  const second = coerce('[]');
+  assert.ok(Array.isArray(first));
+  assert.ok(Array.isArray(second));
+  assert.notEqual(first, second);
 });
 
 test('workshop manifest is valid and every bilingual workshop file exists', () => {
