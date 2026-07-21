@@ -32,6 +32,7 @@
     if (val === 'true')  return true;
     if (val === 'false') return false;
     if (val === '~' || val === 'null') return null;
+    if (val === '[]') return [];
     if (val !== '' && !isNaN(Number(val))) return Number(val);
     return val;
   }
