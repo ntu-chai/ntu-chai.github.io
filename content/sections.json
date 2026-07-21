@@ -31,6 +31,11 @@
       "slug": "team",
       "num": "06",
       "nav": { "en": "People",        "zh": "計畫成員" }
+    },
+    {
+      "slug": "workshops",
+      "num": "07",
+      "nav": { "en": "Workshops", "zh": "每月工作坊" }
     }
   ]
 }

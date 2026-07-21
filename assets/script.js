@@ -111,6 +111,8 @@
   // ───────── content cache ─────────
   // Cache structure: cache[lang][slug] = { data, body, html }
   const cache = { en: {}, zh: {} };
+  let workshopManifestPromise;
+  const workshopCache = { en: {}, zh: {} };
   let sections = []; // loaded from /content/sections.json
 
   async function inlineBrandLogo() {
@@ -165,6 +167,60 @@
     } catch (e) {
       console.error(`Could not load ${url}`, e);
       return { data: { title: slug }, body: '', html: `<p>Could not load <code>${url}</code>.</p>` };
+    }
+  }
+
+  function fetchWorkshopManifest() {
+    if (workshopManifestPromise) return workshopManifestPromise;
+    workshopManifestPromise = fetch('content/workshops/index.json', { cache: 'no-cache' })
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then(manifest => {
+        if (!Array.isArray(manifest.workshops)) throw new Error('Invalid workshop manifest');
+        return manifest.workshops;
+      })
+      .catch(error => {
+        workshopManifestPromise = undefined;
+        throw error;
+      });
+    return workshopManifestPromise;
+  }
+
+  async function fetchWorkshop(lang, slug) {
+    if (workshopCache[lang][slug]) return workshopCache[lang][slug];
+    const url = `content/workshops/${lang}/${slug}.md`;
+    try {
+      const r = await fetch(url, { cache: 'no-cache' });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      const { data, body } = parseFrontmatter(await r.text());
+      const bodyHtml = (typeof marked !== 'undefined')
+        ? marked.parse(body)
+        : `<pre>${escapeHTML(body)}</pre>`;
+      const record = { slug, data, bodyHtml };
+      workshopCache[lang][slug] = record;
+      return record;
+    } catch (error) {
+      console.error(`Could not load ${url}`, error);
+      return { slug, data: {}, bodyHtml: '', error: true, errorMessage: error.message };
+    }
+  }
+
+  async function renderWorkshopSection(lang) {
+    const host = document.querySelector('[data-workshops]');
+    if (!host || !window.CHAIWorkshops) return;
+    host.innerHTML = `<p class="loading mono">${lang === 'zh' ? '正在載入工作坊…' : 'Loading workshops…'}</p>`;
+    try {
+      const slugs = await fetchWorkshopManifest();
+      const records = await Promise.all(slugs.map(slug => fetchWorkshop(lang, slug)));
+      if (document.body.dataset.lang !== lang) return;
+      host.innerHTML = window.CHAIWorkshops.renderWorkshops(records, lang, new Date());
+      requestAnimationFrame(refreshReveals);
+    } catch (error) {
+      console.error('Could not load workshop manifest', error);
+      if (document.body.dataset.lang !== lang) return;
+      host.innerHTML = window.CHAIWorkshops.renderWorkshops(null, lang, new Date());
     }
   }
 
@@ -593,6 +649,16 @@
 
   window.addEventListener('hashchange', () => showPage(routeFromHash()));
   document.addEventListener('click', e => {
+    const disclosure = e.target.closest('[data-workshop-toggle], [data-materials-toggle]');
+    if (disclosure) {
+      const panelId = disclosure.getAttribute('aria-controls');
+      const panel = panelId ? document.getElementById(panelId) : null;
+      if (panel) {
+        panel.hidden = !panel.hidden;
+        disclosure.setAttribute('aria-expanded', String(!panel.hidden));
+      }
+      return;
+    }
     const a = e.target.closest('a[data-route]');
     if (!a) return;
     const target = a.dataset.route;
@@ -615,6 +681,7 @@
       const content = await fetchSection(lang, s.slug);
       renderSection(s.slug, content);
     });
+    renderWorkshopSection(lang);
   }
   function initLang() {
     const urlLang = new URLSearchParams(location.search).get('lang');
