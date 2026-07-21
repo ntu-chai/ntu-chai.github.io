@@ -111,7 +111,7 @@ test('both workshop section introductions use the expected titles and copy', () 
   }
 });
 
-test('paired workshop schedules preserve dates, row semantics, and empty teaching materials', () => {
+test('paired workshop schedules preserve dates, row semantics, and teaching materials', () => {
   const records = Object.fromEntries(languages.map(language => {
     return [language, content(read(`content/workshops/${language}/${slug}.md`))];
   }));
@@ -120,7 +120,7 @@ test('paired workshop schedules preserve dates, row semantics, and empty teachin
     assert.equal(records[language].data.end_date, '2026-07-23');
     assert.equal(records[language].data.status_override, '');
     assert.equal(records[language].data.days.length, 2);
-    assert.equal(records[language].data.days.flatMap(day => day.sessions).length, 15);
+    assert.equal(records[language].data.days.flatMap(day => day.sessions).length, 14);
     assert.ok(records[language].body.length > 0);
   }
 
@@ -129,7 +129,10 @@ test('paired workshop schedules preserve dates, row semantics, and empty teachin
   assert.deepEqual(Array.from(records.en.data.days, day => day.date), Array.from(records.zh.data.days, day => day.date));
   assert.deepEqual(values('en', 'time'), values('zh', 'time'));
   assert.deepEqual(values('en', 'kind'), values('zh', 'kind'));
-  assert.deepEqual(values('en', 'materials'), values('zh', 'materials'));
+  const materialURLs = language => sessions(language)
+    .flatMap(row => Array.isArray(row.materials) ? row.materials : [])
+    .map(material => material.url);
+  assert.deepEqual(materialURLs('en'), materialURLs('zh'));
 
   const allowedKinds = new Set(['registration', 'break', 'meal', 'closing']);
   for (const language of languages) {
@@ -139,10 +142,11 @@ test('paired workshop schedules preserve dates, row semantics, and empty teachin
         assert.equal(row.materials, undefined, `${row.title} is non-teaching`);
       } else {
         assert.ok(Array.isArray(row.materials), `${row.title} needs array materials`);
-        assert.equal(row.materials.length, 0, `${row.title} needs materials: []`);
       }
     }
   }
+  assert.equal(materialURLs('en').length, 5);
+  assert.ok(materialURLs('en').every(url => url.startsWith('https://')));
 });
 
 test('workshop records contain expected titles, labels, and no insecure URLs', () => {
@@ -153,10 +157,10 @@ test('workshop records contain expected titles, labels, and no insecure URLs', (
       'Getting Started with Claude', 'Lunch break', 'Foundational Research Applications with Claude',
       'Building an AI Research Workflow', 'Tea break', 'Claude × Research Agents', 'Closing remarks',
       'Registration', 'Humanities AI Research and Applications', 'Group photo, tea break, and exchange',
-      'Research Collaboration Matching and Consultations', 'Workshop conclusion and Humanities Building tour'],
+      'Research Collaboration Matching and Consultations'],
     zh: ['報到', '人文 AI 導論', '拍照與茶敘休息', 'Claude 初探', '午餐休息', 'Claude 研究基礎應用',
       '用 AI 打造研究工作流', '茶敘休息', 'Claude × 研究智能體 Agents', '小結', '報到',
-      '人文 AI 研究與應用分享', '拍照、茶敘休息與交流', '合作媒合與研究晤談', '工作坊結束與人文館參觀'],
+      '人文 AI 研究與應用分享', '拍照、茶敘休息與交流', '合作媒合與研究晤談'],
   };
   assert.match(en, /^title: AI × Humanities Scholars Workshop$/m);
   assert.match(zh, /^title: AI × 人文領域學者工作坊$/m);
