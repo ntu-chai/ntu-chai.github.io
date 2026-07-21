@@ -57,7 +57,7 @@ days:
       - time: 09:15–10:15
         title: 人文 AI 研究與應用分享
         speaker: "核桃運算公司 許有進博士、劉安陸博士、Edward Yu 博士"
-        materials: []
+        materials:
           - label: BigObject 官方網站
             url: https://bigobject.io/
       - time: 10:15–10:30
