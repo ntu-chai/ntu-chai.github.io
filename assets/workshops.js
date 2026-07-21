@@ -9,6 +9,26 @@
 })(typeof window !== 'undefined' ? window : globalThis, function () {
   'use strict';
 
+  const labels = {
+    en: { upcoming: 'Upcoming workshops', past: 'Past workshops', unclassified: 'Other workshops', comingSoon: 'Coming soon', materials: 'Teaching materials', loadError: 'Could not load workshop', time: 'Time', session: 'Session', speaker: 'Instructor / speaker', details: 'Details' },
+    zh: { upcoming: '近期工作坊', past: '過往工作坊', unclassified: '其他工作坊', comingSoon: '即將上線', materials: '教學資料', loadError: '無法載入工作坊', time: '時間', session: '場次', speaker: '講者／講師', details: '內容' },
+  };
+
+  function escapeHTML(value) {
+    return String(value == null ? '' : value).replace(/[&<>"']/g, function (character) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character];
+    });
+  }
+
+  function safeMaterialURL(value) {
+    const url = String(value || '').trim();
+    if (/^https:\/\//i.test(url)) return { url: url, external: true };
+    if (/^(assets|content)\/[A-Za-z0-9._~!$&'()+,;=:@%\/-]+$/.test(url)) {
+      return { url: url, external: false };
+    }
+    return null;
+  }
+
   function parseISODate(value) {
     const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
     if (!match) return null;
@@ -91,10 +111,156 @@
     return Array.from(groups.values());
   }
 
+  function formatDateRange(data, lang) {
+    const startValue = data.start_date == null ? '' : String(data.start_date);
+    const endValue = data.end_date == null ? '' : String(data.end_date);
+    const start = parseISODate(startValue);
+    const end = parseISODate(endValue);
+
+    if (!start || !end) return [startValue, endValue].filter(Boolean).join(' – ');
+
+    const formatter = new Intl.DateTimeFormat(lang === 'zh' ? 'zh-TW' : 'en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      timeZone: 'UTC',
+    });
+    if (start.getTime() === end.getTime()) return formatter.format(start);
+    return formatter.format(start) + ' – ' + formatter.format(end);
+  }
+
+  function safeSlug(value) {
+    const slug = String(value || 'workshop')
+      .toLowerCase()
+      .replace(/[^a-z0-9_-]+/g, '-')
+      .replace(/[-_]{2,}/g, '-')
+      .replace(/^[-_]+|[-_]+$/g, '');
+    return slug || 'workshop';
+  }
+
+  function renderMaterials(materials, text, panelId) {
+    const links = (Array.isArray(materials) ? materials : []).map(function (material) {
+      const safeURL = safeMaterialURL(material && material.url);
+      if (!safeURL) return '';
+      const external = safeURL.external ? ' target="_blank" rel="noopener noreferrer"' : '';
+      return '<li><a href="' + escapeHTML(safeURL.url) + '"' + external + '>' +
+        escapeHTML(material && material.label) + '</a></li>';
+    }).filter(Boolean);
+    const contents = links.length
+      ? '<ul class="materials-list">' + links.join('') + '</ul>'
+      : '<p class="materials-coming-soon">' + escapeHTML(text.comingSoon) + '</p>';
+
+    return '<div id="' + escapeHTML(panelId) + '" class="materials-panel" hidden>' +
+      '<h5>' + escapeHTML(text.materials) + '</h5>' + contents + '</div>';
+  }
+
+  function renderCell(className, fieldLabel, contents) {
+    return '<div class="' + className + '"><span class="schedule-field-label">' +
+      escapeHTML(fieldLabel) + '</span>' + contents + '</div>';
+  }
+
+  function renderSession(session, context) {
+    const item = session || {};
+    const teaching = !item.kind || item.kind === 'session';
+    const panelId = context.slug + '-day-' + context.dayIndex + '-session-' + context.sessionIndex + '-materials';
+    const title = teaching
+      ? '<button type="button" class="session-toggle" data-materials-toggle aria-expanded="false" aria-controls="' +
+        escapeHTML(panelId) + '">' + escapeHTML(item.title) + '</button>'
+      : '<span class="session-title">' + escapeHTML(item.title) + '</span>';
+
+    return '<div class="schedule-row' + (teaching ? '' : ' is-non-teaching') + '">' +
+      renderCell('schedule-time', context.text.time, escapeHTML(item.time)) +
+      renderCell('schedule-session', context.text.session, title) +
+      renderCell('schedule-speaker', context.text.speaker, escapeHTML(item.speaker)) +
+      renderCell('schedule-details', context.text.details, escapeHTML(item.details)) +
+      (teaching ? renderMaterials(item.materials, context.text, panelId) : '') + '</div>';
+  }
+
+  function renderDay(day, context) {
+    const item = day || {};
+    const dayDate = parseISODate(String(item.date || ''));
+    const formatter = new Intl.DateTimeFormat(context.lang === 'zh' ? 'zh-TW' : 'en-US', {
+      year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC',
+    });
+    const dateLabel = dayDate ? formatter.format(dayDate) : String(item.date || '');
+    const heading = [item.label, dateLabel].filter(Boolean).map(escapeHTML).join(' · ');
+    const sessions = (Array.isArray(item.sessions) ? item.sessions : []).map(function (session, sessionIndex) {
+      return renderSession(session, {
+        slug: context.slug,
+        dayIndex: context.dayIndex,
+        sessionIndex: sessionIndex,
+        text: context.text,
+      });
+    }).join('');
+
+    return '<section class="schedule-day"><h4>' + heading + '</h4>' +
+      '<div class="schedule-head"><span>' + escapeHTML(context.text.time) + '</span><span>' +
+      escapeHTML(context.text.session) + '</span><span>' + escapeHTML(context.text.speaker) +
+      '</span><span>' + escapeHTML(context.text.details) + '</span></div>' + sessions + '</section>';
+  }
+
+  function renderWorkshop(record, lang, status, recordIndex) {
+    const data = record.data || {};
+    const text = labels[lang === 'zh' ? 'zh' : 'en'];
+    const slug = safeSlug(record.slug) + '-' + recordIndex;
+    const panelId = slug + '-panel';
+    const venue = data.venue ? '<span class="workshop-venue">' + escapeHTML(data.venue) + '</span>' : '';
+    const intro = record.bodyHtml
+      ? '<div class="workshop-intro markdown-body">' + record.bodyHtml + '</div>'
+      : '';
+    const days = (Array.isArray(data.days) ? data.days : []).map(function (day, dayIndex) {
+      return renderDay(day, { slug: slug, dayIndex: dayIndex, lang: lang, text: text });
+    }).join('');
+
+    return '<article class="workshop-card"><button type="button" class="workshop-toggle" data-workshop-toggle ' +
+      'aria-expanded="false" aria-controls="' + escapeHTML(panelId) + '"><span class="workshop-title">' +
+      escapeHTML(data.title) + '</span><span class="workshop-date">' + escapeHTML(formatDateRange(data, lang)) +
+      '</span>' + venue + '<span class="workshop-status">' + escapeHTML(text[status]) + '</span></button>' +
+      '<div id="' + escapeHTML(panelId) + '" class="workshop-panel" hidden>' + intro + days + '</div></article>';
+  }
+
+  function renderGroup(title, recordsHtml, className) {
+    if (!recordsHtml) return '';
+    return '<section class="workshop-section ' + escapeHTML(className) + '"><h2>' +
+      escapeHTML(title) + '</h2>' + recordsHtml + '</section>';
+  }
+
+  function renderWorkshops(records, lang, now) {
+    const language = lang === 'zh' ? 'zh' : 'en';
+    const text = labels[language];
+    if (!Array.isArray(records)) {
+      return '<div class="workshop-load-error">' + escapeHTML(text.loadError) + '</div>';
+    }
+
+    const failed = records.filter(function (record) { return record && record.error === true; });
+    const valid = records.filter(function (record) { return record && record.error !== true; });
+    const organized = organizeWorkshops(valid, now);
+    let recordIndex = 0;
+    function renderRecords(items, status) {
+      return items.map(function (record) {
+        return renderWorkshop(record, language, status, recordIndex++);
+      }).join('');
+    }
+
+    let html = renderGroup(text.upcoming, renderRecords(organized.upcoming, 'upcoming'), 'is-upcoming');
+    const pastMonths = groupPastByMonth(organized.past, language).map(function (group) {
+      return '<section class="workshop-month"><h3>' + escapeHTML(group.label) + '</h3>' +
+        renderRecords(group.items, 'past') + '</section>';
+    }).join('');
+    html += renderGroup(text.past, pastMonths, 'is-past');
+    html += renderGroup(text.unclassified, renderRecords(organized.unclassified, 'unclassified'), 'is-unclassified');
+    html += failed.map(function (record) {
+      const detail = record.errorMessage ? ': ' + escapeHTML(record.errorMessage) : '';
+      return '<div class="workshop-load-error">' + escapeHTML(text.loadError) + detail + '</div>';
+    }).join('');
+    return html;
+  }
+
   return {
     parseISODate: parseISODate,
     classifyWorkshop: classifyWorkshop,
     organizeWorkshops: organizeWorkshops,
     groupPastByMonth: groupPastByMonth,
+    renderWorkshops: renderWorkshops,
   };
 });
