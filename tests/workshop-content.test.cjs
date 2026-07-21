@@ -30,10 +30,27 @@ const parseFrontmatter = vm.runInNewContext(
   `${functionSource('coerce')}\n${functionSource('parseFrontmatter')}\nparseFrontmatter`,
 );
 
+test('manifest validation permits an additional unique valid workshop slug', () => {
+  assert.doesNotThrow(() => validateManifest({
+    workshops: [slug, '2026-08-19-second-workshop'],
+  }));
+});
+
 function content(source) {
   const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
   assert.ok(match, 'expected YAML frontmatter');
   return { ...parseFrontmatter(source), yaml: match[1] };
+}
+
+function validateManifest(manifest) {
+  assert.ok(Array.isArray(manifest.workshops), 'workshops must be an array');
+  assert.ok(manifest.workshops.length > 0, 'workshops must not be empty');
+  assert.ok(manifest.workshops.includes(slug), `workshops must include ${slug}`);
+  for (const workshopSlug of manifest.workshops) {
+    assert.equal(typeof workshopSlug, 'string');
+    assert.match(workshopSlug, /^[a-z0-9][a-z0-9-]*$/);
+  }
+  assert.equal(new Set(manifest.workshops).size, manifest.workshops.length, 'workshop slugs must be unique');
 }
 
 test('actual frontmatter parser preserves inline empty materials arrays', () => {
@@ -54,10 +71,14 @@ Fixture body.`);
 test('workshop manifest is valid and every bilingual workshop file exists', () => {
   const manifest = JSON.parse(read('content/workshops/index.json'));
   assert.equal(typeof manifest.comment, 'string');
-  assert.deepEqual(manifest.workshops, [slug]);
+  validateManifest(manifest);
   for (const language of languages) {
     for (const workshopSlug of manifest.workshops) {
-      assert.ok(fs.existsSync(path.join(root, 'content/workshops', language, `${workshopSlug}.md`)));
+      const workshopPath = path.join(root, 'content/workshops', language, `${workshopSlug}.md`);
+      assert.ok(fs.existsSync(workshopPath), `missing ${language}/${workshopSlug}.md`);
+      const parsed = content(fs.readFileSync(workshopPath, 'utf8'));
+      assert.equal(typeof parsed.data.title, 'string');
+      assert.ok(Array.isArray(parsed.data.days));
     }
   }
 });
