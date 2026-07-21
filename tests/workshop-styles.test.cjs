@@ -8,6 +8,23 @@ const css = fs.readFileSync(path.join(root, 'assets/styles.css'), 'utf8');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const compact = css.replace(/\s+/g, ' ');
 
+function tokenHex(name) {
+  const match = css.match(new RegExp(`${name}:\\s*#([0-9a-f]{6})`, 'i'));
+  assert.ok(match, `missing hex token ${name}`);
+  return match[1];
+}
+
+function contrast(first, second) {
+  const luminance = (hex) => {
+    const channels = hex.match(/../g).map((part) => parseInt(part, 16) / 255)
+      .map((value) => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+    return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+  };
+  const left = luminance(first);
+  const right = luminance(second);
+  return (Math.max(left, right) + 0.05) / (Math.min(left, right) + 0.05);
+}
+
 function rule(selector) {
   const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const match = compact.match(new RegExp(escaped + '\\s*\\{([^}]+)\\}'));
@@ -37,7 +54,10 @@ test('workshop metadata, status, and panel follow the site typography and rhythm
   const status = rule('.workshop-status');
   assert.match(status, /font-family:\s*var\(--f-mono\)/);
   assert.match(status, /border-radius:\s*999px/);
-  assert.match(status, /color:\s*var\(--burnt\)/);
+  assert.match(status, /color:\s*var\(--ink\)/);
+  assert.match(rule('.workshop-section.is-upcoming .workshop-status'), /color:\s*var\(--ink\)/);
+  assert.ok(contrast(tokenHex('--ink'), tokenHex('--cream-soft')) >= 4.5,
+    'light-theme status/error text token must contrast against elevated background');
   const panel = rule('.workshop-panel');
   assert.match(panel, /border-top:\s*1px solid var\(--hairline\)/);
   assert.match(panel, /padding:/);
@@ -47,6 +67,8 @@ test('schedule uses an aligned four-column grid and full-width materials', () =>
   const columns = 'minmax(7rem, .7fr) minmax(12rem, 1.5fr) minmax(9rem, 1fr) minmax(12rem, 1.3fr)';
   assert.match(rule('.schedule-head, .schedule-row'), new RegExp('grid-template-columns:\\s*' + columns.replace(/[().]/g, '\\$&')));
   assert.match(rule('.materials-panel'), /grid-column:\s*1\s*\/\s*-1/);
+  assert.match(rule('.schedule-head'), /padding:\s*0(?:;|$)/);
+  assert.match(rule('.schedule-head > span, .schedule-row > :not(.materials-panel)'), /padding:\s*0\.8rem/);
   const nonTeaching = rule('.schedule-row.is-non-teaching');
   assert.match(nonTeaching, /background:/);
   assert.match(nonTeaching, /color:\s*var\(--ink-soft\)/);
@@ -60,21 +82,32 @@ test('session buttons and materials are readable, interactive, and theme-aware',
     /background:\s*transparent/, /font:\s*inherit/, /text-align:\s*left/,
   ]) assert.match(session, property);
   const hover = rule('.session-toggle:hover');
-  assert.match(hover, /color:\s*var\(--burnt\)/);
+  assert.match(hover, /color:\s*var\(--ink\)/);
   assert.match(hover, /text-decoration:\s*underline/);
 
   const materials = rule('.materials-panel');
   assert.match(materials, /grid-column:\s*1\s*\/\s*-1/);
   assert.match(materials, /background:/);
   assert.match(rule('.materials-list'), /gap:/);
-  assert.match(rule('.materials-panel a'), /text-decoration:\s*underline/);
-  assert.match(rule('.workshop-load-error'), /color:\s*var\(--burnt\)/);
+  const materialLink = rule('.materials-panel a');
+  assert.match(materialLink, /color:\s*var\(--ink\)/);
+  assert.match(materialLink, /text-decoration:\s*underline/);
+  const error = rule('.workshop-load-error');
+  assert.match(error, /border-left:\s*3px solid var\(--burnt\)/);
+  assert.match(error, /color:\s*var\(--ink\)/);
 });
 
-test('disclosures, material links, and hidden panels expose accessible states', () => {
-  const focus = rule('.workshop-toggle:focus-visible, .session-toggle:focus-visible, .materials-panel a:focus-visible');
-  assert.match(focus, /outline:\s*3px solid var\(--gold\)/);
-  assert.match(focus, /outline-offset:\s*3px/);
+test('focus indicators remain high contrast and visible inside clipped cards', () => {
+  assert.match(rule('.workshop-card'), /overflow:\s*hidden/);
+  const workshopFocus = rule('.workshop-toggle:focus-visible');
+  assert.match(workshopFocus, /outline:\s*3px solid var\(--ink\)/);
+  assert.match(workshopFocus, /outline-offset:\s*-3px/);
+  const nestedFocus = rule('.session-toggle:focus-visible, .materials-panel a:focus-visible');
+  assert.match(nestedFocus, /outline:\s*3px solid var\(--ink\)/);
+  assert.match(nestedFocus, /outline-offset:\s*3px/);
+});
+
+test('disclosures and hidden panels expose accessible states', () => {
   const chevron = rule('.workshop-toggle::after, .session-toggle::after');
   assert.match(chevron, /content:/);
   assert.match(chevron, /transform:\s*rotate\(0deg\)/);
@@ -82,9 +115,9 @@ test('disclosures, material links, and hidden panels expose accessible states', 
   assert.match(rule('.workshop-panel[hidden], .materials-panel[hidden]'), /display:\s*none\s*!important/);
 });
 
-test('mobile workshop schedule becomes a labelled single-column layout', () => {
-  const mobile = compact.match(/@media\s*\(max-width:\s*720px\)\s*\{([\s\S]*)\}\s*(?:@media|$)/);
-  assert.ok(mobile, 'missing max-width: 720px workshop styles');
+test('workshop schedule stacks by 800px into a labelled single-column layout', () => {
+  const mobile = compact.match(/@media\s*\(max-width:\s*800px\)\s*\{([\s\S]*)\}\s*(?:@media|$)/);
+  assert.ok(mobile, 'missing max-width: 800px workshop styles');
   assert.match(mobile[1], /\.schedule-head\s*\{[^}]*display:\s*none/);
   assert.match(mobile[1], /\.schedule-row\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)/);
   assert.match(mobile[1], /\.schedule-field-label\s*\{[^}]*display:\s*(?:block|inline-block)/);

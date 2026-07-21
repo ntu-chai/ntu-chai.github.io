@@ -1934,7 +1934,7 @@ body[data-theme="dark"] .media-figure {
   padding: 0.3rem 0.65rem;
   border: 1px solid var(--hairline-strong);
   border-radius: 999px;
-  color: var(--burnt);
+  color: var(--ink);
   font-family: var(--f-mono);
   font-size: 0.68rem;
   font-weight: 500;
@@ -1943,7 +1943,7 @@ body[data-theme="dark"] .media-figure {
 }
 .workshop-section.is-upcoming .workshop-status {
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--ink);
 }
 .workshop-panel {
   padding: clamp(1rem, 3vw, 1.5rem);
@@ -1967,7 +1967,7 @@ body[data-theme="dark"] .media-figure {
   font-size: 1.05rem;
 }
 .schedule-head {
-  padding: 0.55rem 0.8rem;
+  padding: 0;
   border-bottom: 1px solid var(--hairline-strong);
   color: var(--ink-soft);
   font-family: var(--f-mono);
@@ -1980,6 +1980,7 @@ body[data-theme="dark"] .media-figure {
   border-bottom: 1px solid var(--hairline);
   align-items: stretch;
 }
+.schedule-head > span,
 .schedule-row > :not(.materials-panel) {
   min-width: 0;
   padding: 0.8rem;
@@ -2009,8 +2010,9 @@ body[data-theme="dark"] .media-figure {
   text-align: left;
 }
 .session-toggle:hover {
-  color: var(--burnt);
+  color: var(--ink);
   text-decoration: underline;
+  text-decoration-color: var(--burnt);
   text-underline-offset: 0.2em;
 }
 .materials-panel {
@@ -2027,22 +2029,26 @@ body[data-theme="dark"] .media-figure {
   padding-left: 1.25rem;
 }
 .materials-panel a {
-  color: var(--accent);
+  color: var(--ink);
   text-decoration: underline;
+  text-decoration-color: var(--burnt);
   text-underline-offset: 0.18em;
 }
 .materials-coming-soon { margin: 0; color: var(--ink-soft); }
 .workshop-load-error {
   padding: 1rem;
   border-left: 3px solid var(--burnt);
-  color: var(--burnt);
+  color: var(--ink);
 }
 .workshop-panel[hidden],
 .materials-panel[hidden] { display: none !important; }
-.workshop-toggle:focus-visible,
+.workshop-toggle:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: -3px;
+}
 .session-toggle:focus-visible,
 .materials-panel a:focus-visible {
-  outline: 3px solid var(--gold);
+  outline: 3px solid var(--ink);
   outline-offset: 3px;
 }
 body[data-theme="dark"] .workshop-card {
@@ -2052,7 +2058,7 @@ body[data-theme="dark"] .schedule-row.is-non-teaching {
   background: rgba(250, 239, 208, 0.045);
 }
 
-@media (max-width: 720px) {
+@media (max-width: 800px) {
   .workshops-host { gap: 2.25rem; }
   .workshop-toggle {
     grid-template-columns: minmax(0, 1fr) auto;
