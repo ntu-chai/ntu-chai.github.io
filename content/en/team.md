@@ -32,7 +32,7 @@ team:
   - role: Deputy Executive Director
     name: Po-Ya Angela Wang
     dept: "Co-Intelligence Humanitites AI Future Lab"
-    url: "https://lope.linguistics.ntu.edu.tw/people/po-ya-angela-wang/"
+    url: "https://diff94.github.io/"
   - role: Director of Research Computing
     name: Da-Chen Lian
     dept: "Co-Intelligence Humanitites AI Future Lab"

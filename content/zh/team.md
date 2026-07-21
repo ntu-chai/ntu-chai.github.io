@@ -30,7 +30,7 @@ team:
   - role: 副執行長
     name: 王伯雅
     dept: "人文AI共智未來實驗室"
-    url: "https://lope.linguistics.ntu.edu.tw/people/po-ya-angela-wang/"
+    url: "https://diff94.github.io/"
   - role: 研究運算總監
     name: 連大成
     dept: "人文AI共智未來實驗室"
