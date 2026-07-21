@@ -101,8 +101,8 @@ test('both workshop section introductions use the expected titles and copy', () 
     en: ['Workshops', 'Monthly hands-on learning for humanities scholars',
       'Explore upcoming workshops and revisit teaching materials from past sessions.',
       'Workshop schedules and materials are updated here as they become available.'],
-    zh: ['每月工作坊', '為人文領域學者舉辦的每月實作交流',
-      '查看近期工作坊，並瀏覽過往場次的教學資料。', '工作坊時程與教學資料將於此持續更新。'],
+    zh: ['CHAI 工作坊', '為人文領域學者舉辦的每月實作交流',
+      '查看近期工作坊，並瀏覽過往場次的教學資料。', ''],
   };
   for (const language of languages) {
     const parsed = content(read(`content/${language}/workshops.md`));

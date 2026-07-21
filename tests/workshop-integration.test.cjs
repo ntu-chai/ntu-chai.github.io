@@ -26,7 +26,7 @@ test('workshops are registered as section 07 in both languages', () => {
   assert.deepEqual(sections.sections.at(-1), {
     slug: 'workshops',
     num: '07',
-    nav: { en: 'Workshops', zh: '每月工作坊' },
+    nav: { en: 'Workshops', zh: 'CHAI 工作坊' },
   });
 });
 
