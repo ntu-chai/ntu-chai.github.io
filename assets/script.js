@@ -112,8 +112,37 @@
   // Cache structure: cache[lang][slug] = { data, body, html }
   const cache = { en: {}, zh: {} };
   let workshopManifestPromise;
-  const workshopCache = { en: {}, zh: {} };
+  const workshopCache = { en: Object.create(null), zh: Object.create(null) };
   let sections = []; // loaded from /content/sections.json
+
+  function isCurrentLanguage(lang, body) {
+    return body.dataset.lang === lang;
+  }
+
+  function prepareWorkshopEntries(entries) {
+    return entries.map((slug, index) => {
+      if (typeof slug === 'string' && /^[a-z0-9][a-z0-9-]*$/.test(slug)) {
+        return { valid: true, slug };
+      }
+      return {
+        valid: false,
+        slug: `invalid-workshop-${index + 1}`,
+        errorMessage: 'Invalid workshop slug',
+      };
+    });
+  }
+
+  function fetchPreparedWorkshopEntries(entries, lang, fetcher) {
+    return Promise.all(entries.map(entry => entry.valid
+      ? fetcher(lang, entry.slug)
+      : Promise.resolve({
+          slug: entry.slug,
+          data: {},
+          bodyHtml: '',
+          error: true,
+          errorMessage: entry.errorMessage,
+        })));
+  }
 
   async function inlineBrandLogo() {
     const img = document.querySelector('img.brand-mark[src$=".svg"], img.brand-mark[src*=".svg?"]');
@@ -210,17 +239,21 @@
   async function renderWorkshopSection(lang) {
     const host = document.querySelector('[data-workshops]');
     if (!host || !window.CHAIWorkshops) return;
-    host.innerHTML = `<p class="loading mono">${lang === 'zh' ? '正在載入工作坊…' : 'Loading workshops…'}</p>`;
+    host.setAttribute('aria-busy', 'true');
+    host.innerHTML = `<p class="loading mono" role="status">${lang === 'zh' ? '正在載入工作坊…' : 'Loading workshops…'}</p>`;
     try {
-      const slugs = await fetchWorkshopManifest();
-      const records = await Promise.all(slugs.map(slug => fetchWorkshop(lang, slug)));
-      if (document.body.dataset.lang !== lang) return;
+      const manifest = await fetchWorkshopManifest();
+      const entries = prepareWorkshopEntries(manifest);
+      const records = await fetchPreparedWorkshopEntries(entries, lang, fetchWorkshop);
+      if (!isCurrentLanguage(lang, document.body)) return;
       host.innerHTML = window.CHAIWorkshops.renderWorkshops(records, lang, new Date());
+      host.setAttribute('aria-busy', 'false');
       requestAnimationFrame(refreshReveals);
     } catch (error) {
       console.error('Could not load workshop manifest', error);
-      if (document.body.dataset.lang !== lang) return;
+      if (!isCurrentLanguage(lang, document.body)) return;
       host.innerHTML = window.CHAIWorkshops.renderWorkshops(null, lang, new Date());
+      host.setAttribute('aria-busy', 'false');
     }
   }
 
@@ -679,6 +712,7 @@
     // Re-render every section in the new language
     sections.forEach(async s => {
       const content = await fetchSection(lang, s.slug);
+      if (!isCurrentLanguage(lang, document.body)) return;
       renderSection(s.slug, content);
     });
     renderWorkshopSection(lang);
