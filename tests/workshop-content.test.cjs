@@ -99,8 +99,7 @@ test('workshop manifest is valid and every bilingual workshop file exists', () =
 test('both workshop section introductions use the expected titles and copy', () => {
   const expected = {
     en: ['Workshops', 'Monthly hands-on learning for humanities scholars',
-      'Explore upcoming workshops and revisit teaching materials from past sessions.',
-      'Workshop schedules and materials are updated here as they become available.'],
+      'Explore upcoming workshops and revisit teaching materials from past sessions.', ''],
     zh: ['CHAI 工作坊', '為人文領域學者舉辦的每月實作交流',
       '查看近期工作坊，並瀏覽過往場次的教學資料。', ''],
   };
