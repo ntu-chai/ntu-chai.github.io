@@ -58,6 +58,8 @@ days:
         title: 人文 AI 研究與應用分享
         speaker: "核桃運算公司 許有進博士、劉安陸博士、Edward Yu 博士"
         materials: []
+          - label: BigObject 官方網站
+            url: https://bigobject.io/
       - time: 10:15–10:30
         title: 拍照、茶敘休息與交流
         kind: break
@@ -65,9 +67,8 @@ days:
         title: 合作媒合與研究晤談
         details: "有意與 CHAI 團隊合作的老師，歡迎前來交流"
         materials: []
-      - time: 12:00
-        title: 工作坊結束與人文館參觀
-        kind: closing
+          
+     
 ---
 
 教學資料將於內容備妥後陸續新增。

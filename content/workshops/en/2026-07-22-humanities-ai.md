@@ -56,8 +56,10 @@ days:
         kind: registration
       - time: 09:15–10:15
         title: Humanities AI Research and Applications
-        speaker: "Walnut Computational Intelligence: 許有進博士、劉安陸博士, and Dr. Edward Yu"
-        materials: []
+        speaker: "BigObject: 許有進博士、劉安陸博士, and Dr. Edward Yu"
+        materials: 
+          - label: BigObject 官方網站
+            url: https://bigobject.io/
       - time: 10:15–10:30
         title: Group photo, tea break, and exchange
         kind: break
@@ -65,9 +67,8 @@ days:
         title: Research Collaboration Matching and Consultations
         details: Faculty interested in collaborating with the CHAI team are welcome to join the discussion.
         materials: []
-      - time: 12:00
-        title: Workshop conclusion and Humanities Building tour
-        kind: closing
+           
+
 ---
 
 Teaching materials will be added as they become available.
