@@ -22,8 +22,33 @@ test('parseISODate accepts strict valid dates and rejects invalid dates', () => 
 test('classifyWorkshop treats the end date as inclusive', () => {
   const now = new Date('2026-07-23T00:00:00.000Z');
 
-  assert.equal(classifyWorkshop({ end_date: '2026-07-23' }, now), 'upcoming');
-  assert.equal(classifyWorkshop({ end_date: '2026-07-22' }, now), 'past');
+  assert.equal(classifyWorkshop({ start_date: '2026-07-23', end_date: '2026-07-23' }, now), 'upcoming');
+  assert.equal(classifyWorkshop({ start_date: '2026-07-22', end_date: '2026-07-22' }, now), 'past');
+});
+
+test('automatic classification requires valid start and end dates', () => {
+  const now = new Date('2026-07-23T00:00:00.000Z');
+
+  assert.equal(classifyWorkshop({ start_date: 'invalid', end_date: '2026-07-22' }, now), 'unclassified');
+  assert.equal(classifyWorkshop({ start_date: 'invalid', end_date: '2099-01-01' }, now), 'unclassified');
+  assert.equal(classifyWorkshop({ start_date: '2026-07-22', end_date: 'invalid' }, now), 'unclassified');
+});
+
+test('overrides win with invalid dates and every such record remains rendered', () => {
+  const records = [
+    { slug: 'automatic-other', data: { title: 'Automatic other', start_date: 'invalid', end_date: '2026-01-01', days: [] } },
+    { slug: 'forced-past', data: { title: 'Forced past', start_date: 'invalid', end_date: 'invalid', status_override: 'past', days: [] } },
+    { slug: 'forced-upcoming', data: { title: 'Forced upcoming', start_date: 'invalid', end_date: 'invalid', status_override: 'upcoming', days: [] } },
+  ];
+
+  const html = renderWorkshops(records, 'en', new Date('2026-07-23T00:00:00.000Z'));
+
+  assert.match(html, /Other workshops[\s\S]*Automatic other/);
+  assert.match(html, /Past workshops[\s\S]*Forced past/);
+  assert.match(html, /Upcoming workshops[\s\S]*Forced upcoming/);
+  for (const title of ['Automatic other', 'Forced past', 'Forced upcoming']) {
+    assert.equal((html.match(new RegExp(title, 'g')) || []).length, 1);
+  }
 });
 
 test('classifyWorkshop honors valid overrides and rejects invalid undated records', () => {
@@ -170,7 +195,7 @@ test('renderWorkshops uses every exact Chinese label', () => {
   }
 });
 
-test('teaching sessions expose four labeled cells and matching material disclosure controls', () => {
+test('teaching sessions omit absent optional cells and matching mobile labels', () => {
   const records = [{ slug: 'access', data: {
     title: 'Accessible', start_date: '2026-08-01', end_date: '2026-08-01',
     days: [{ label: 'Day', date: '2026-08-01', sessions: [{ title: 'Teaching', materials: [] }] }],
@@ -178,15 +203,56 @@ test('teaching sessions expose four labeled cells and matching material disclosu
 
   const html = renderWorkshops(records, 'en', new Date('2026-07-21T00:00:00.000Z'));
 
-  for (const className of ['schedule-time', 'schedule-session', 'schedule-speaker', 'schedule-details']) {
+  for (const className of ['schedule-time', 'schedule-session']) {
     assert.match(html, new RegExp('class="' + className + '"'));
   }
-  for (const fieldLabel of ['Time', 'Session', 'Instructor / speaker', 'Details']) {
+  for (const className of ['schedule-speaker', 'schedule-details']) {
+    assert.doesNotMatch(html, new RegExp('class="' + className + '"'));
+  }
+  for (const fieldLabel of ['Time', 'Session']) {
     assert.match(html, new RegExp('schedule-field-label">' + fieldLabel.replace('/', '\\/')));
+  }
+  for (const fieldLabel of ['Instructor / speaker', 'Details']) {
+    assert.doesNotMatch(html, new RegExp('schedule-field-label">' + fieldLabel.replace('/', '\\/')));
   }
   const control = html.match(/<button type="button" class="session-toggle" data-materials-toggle aria-expanded="false" aria-controls="([^"]+)"/);
   assert.ok(control);
   assert.match(html, new RegExp('<div id="' + control[1] + '" class="materials-panel" hidden>'));
+});
+
+test('teaching sessions retain optional speaker and details cells when populated', () => {
+  const html = renderWorkshops([{ slug: 'full-session', data: {
+    title: 'Complete', start_date: '2026-08-01', end_date: '2026-08-01',
+    days: [{ date: '2026-08-01', sessions: [{ title: 'Teaching', speaker: 'Dr. Speaker', details: 'Hands-on', materials: [] }] }],
+  } }], 'en', new Date('2026-07-21T00:00:00.000Z'));
+
+  assert.match(html, /class="schedule-speaker"[\s\S]*Dr\. Speaker/);
+  assert.match(html, /class="schedule-details"[\s\S]*Hands-on/);
+});
+
+test('workshop renders escaped subtitle and safe localized registration CTA', () => {
+  const html = renderWorkshops([{ slug: 'register', data: {
+    title: 'Register', subtitle: '<Methods & practice>', start_date: '2026-08-01', end_date: '2026-08-01',
+    registration_url: 'https://example.org/register?a=1&b=2', registration_label: '<Join now>', days: [],
+  } }], 'en', new Date('2026-07-21T00:00:00.000Z'));
+
+  assert.match(html, /class="workshop-subtitle">&lt;Methods &amp; practice&gt;<\/span>/);
+  assert.match(html, /class="workshop-registration" href="https:\/\/example\.org\/register\?a=1&amp;b=2" target="_blank" rel="noopener noreferrer">&lt;Join now&gt;<\/a>/);
+});
+
+test('registration CTA uses localized fallbacks and omits unsafe or missing URLs', () => {
+  const en = renderWorkshops([{ slug: 'en', data: { title: 'EN', start_date: '2026-08-01', end_date: '2026-08-01', registration_url: 'https://example.org', days: [] } }], 'en', new Date('2026-07-21'));
+  const zh = renderWorkshops([{ slug: 'zh', data: { title: 'ZH', start_date: '2026-08-01', end_date: '2026-08-01', registration_url: 'https://example.org', days: [] } }], 'zh', new Date('2026-07-21'));
+  assert.match(en, />Register<\/a>/);
+  assert.match(zh, />報名<\/a>/);
+
+  const blankLabel = renderWorkshops([{ slug: 'blank-label', data: { title: 'Blank', start_date: '2026-08-01', end_date: '2026-08-01', registration_url: 'https://example.org', registration_label: '   ', days: [] } }], 'en', new Date('2026-07-21'));
+  assert.match(blankLabel, />Register<\/a>/);
+
+  for (const registration_url of [undefined, '', 'https://', 'http://example.org', 'javascript:alert(1)', 'assets/register.html']) {
+    const html = renderWorkshops([{ slug: 'unsafe', data: { title: 'Unsafe', start_date: '2026-08-01', end_date: '2026-08-01', registration_url, days: [] } }], 'en', new Date('2026-07-21'));
+    assert.doesNotMatch(html, /workshop-registration/);
+  }
 });
 
 test('workshop disclosure controls a matching hidden panel', () => {

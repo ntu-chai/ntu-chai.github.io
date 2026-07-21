@@ -1924,6 +1924,14 @@ body[data-theme="dark"] .media-figure {
   font-weight: 650;
   line-height: 1.25;
 }
+.workshop-subtitle {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--ink-soft);
+  font-family: var(--f-sans);
+  font-size: 0.9rem;
+  font-weight: 400;
+}
 .workshop-date,
 .workshop-venue {
   color: var(--ink-soft);
@@ -1950,6 +1958,25 @@ body[data-theme="dark"] .media-figure {
   border-top: 1px solid var(--hairline);
 }
 .workshop-intro { margin-bottom: 1.5rem; }
+.workshop-registration {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding: 0.65rem 1rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--f-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.workshop-registration:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+.workshop-registration:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
 .schedule-day,
 .schedule-head,
 .schedule-row {
@@ -1957,6 +1984,10 @@ body[data-theme="dark"] .media-figure {
   grid-template-columns: minmax(7rem, .7fr) minmax(12rem, 1.5fr) minmax(9rem, 1fr) minmax(12rem, 1.3fr);
   min-width: 0;
 }
+.schedule-time { grid-column: 1; }
+.schedule-session { grid-column: 2; }
+.schedule-speaker { grid-column: 3; }
+.schedule-details { grid-column: 4; }
 .schedule-day > h4,
 .schedule-day > .schedule-head,
 .schedule-day > .schedule-row { grid-column: 1 / -1; }
@@ -2082,6 +2113,10 @@ body[data-theme="dark"] .schedule-row.is-non-teaching {
     padding: 0.45rem 0;
   }
   .schedule-row > :not(.materials-panel) { padding: 0.45rem 0.8rem; }
+  .schedule-time,
+  .schedule-session,
+  .schedule-speaker,
+  .schedule-details { grid-column: auto; }
   .schedule-field-label {
     display: block;
     margin-bottom: 0.15rem;

@@ -48,10 +48,11 @@ test('guide documents workshop, day, session, and material fields', () => {
   const workshop = tableAfter('Workshop-level fields:');
   assert.deepEqual(Object.keys(workshop), [
     'title', 'start_date', 'end_date', 'days', 'subtitle', 'venue',
-    'status_override', 'registration_url', 'label',
+    'status_override', 'registration_url', 'registration_label',
   ]);
   for (const field of ['title', 'start_date', 'end_date', 'days']) assert.equal(workshop[field].required, 'Required');
-  for (const field of ['subtitle', 'venue', 'status_override', 'registration_url', 'label']) assert.equal(workshop[field].required, 'Optional');
+  for (const field of ['subtitle', 'venue', 'status_override', 'registration_url', 'registration_label']) assert.equal(workshop[field].required, 'Optional');
+  assert.match(workshop.registration_label.description, /registration_url/i);
   assert.match(workshop.status_override.description, /`upcoming`.*`past`.*empty/i);
 
   const day = tableAfter('Each item in `days` has:');
@@ -76,7 +77,7 @@ test('guide explains workshop classification, archive, rows, and safe links', ()
   assert.match(compactGuide, /`status_override` (?:set to )?exactly `upcoming` or `past` wins even (?:when|if) (?:the )?dates? (?:are|is) invalid/i);
   assert.match(compactGuide, /empty, omitted, or unsupported `status_override` value uses automatic/i);
   assert.match(compactGuide, /valid `end_date` on or after the visitor['’]s local (?:calendar day|today) is upcoming;? (?:a date )?before (?:that day|today) is past/i);
-  assert.match(compactGuide, /automatic classification.*missing or invalid `end_date`.*Other workshops.*其他工作坊/i);
+  assert.match(compactGuide, /automatic classification.*missing or invalid `start_date` or `end_date`.*Other workshops.*其他工作坊/i);
   assert.match(compactGuide, /Upcoming workshops.*`start_date` earliest-first/i);
   assert.match(compactGuide, /Past workshops.*`start_date` newest-first/i);
   assert.match(compactGuide, /localized year and month/i);
@@ -93,9 +94,10 @@ test('guide provides synchronized, parser-compatible bilingual templates', () =>
   assert.deepEqual(templates.map(match => match[1]), ['en', 'zh']);
   const structures = [];
   for (const [, , yaml] of templates) {
-    for (const key of ['title', 'subtitle', 'start_date', 'end_date', 'venue', 'status_override', 'label', 'days']) {
+    for (const key of ['title', 'subtitle', 'start_date', 'end_date', 'venue', 'status_override', 'days']) {
       assert.match(yaml, new RegExp('^' + key + ':', 'm'));
     }
+    assert.doesNotMatch(yaml, /^label:/m);
     assert.doesNotMatch(yaml, /registration_(?:url|label):/);
     assert.doesNotMatch(yaml, /example\.org|https?:\/\/(?!drive\.google\.com\/file\/d\/FILE_ID\/view)/i);
     assert.equal((yaml.match(/^  - date:/gm) || []).length, 2);

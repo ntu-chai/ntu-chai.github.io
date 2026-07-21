@@ -63,6 +63,11 @@ test('workshop metadata, status, and panel follow the site typography and rhythm
   assert.match(panel, /padding:/);
 });
 
+test('workshop subtitles use the existing sans-serif typography token', () => {
+  assert.match(rule('.workshop-subtitle'), /font-family:\s*var\(--f-sans\)/);
+  assert.doesNotMatch(compact.slice(compact.indexOf('.workshops-host')), /var\(--f-body\)/);
+});
+
 test('schedule uses an aligned four-column grid and full-width materials', () => {
   const columns = 'minmax(7rem, .7fr) minmax(12rem, 1.5fr) minmax(9rem, 1fr) minmax(12rem, 1.3fr)';
   assert.match(rule('.schedule-head, .schedule-row'), new RegExp('grid-template-columns:\\s*' + columns.replace(/[().]/g, '\\$&')));
@@ -124,6 +129,19 @@ test('workshop schedule stacks by 800px into a labelled single-column layout', (
   assert.match(rule('.schedule-field-label'), /display:\s*none/);
   assert.match(rule('.workshop-card'), /min-width:\s*0/);
   assert.match(rule('.schedule-row > :not(.materials-panel)'), /overflow-wrap:\s*anywhere/);
+  assert.match(rule('.schedule-time'), /grid-column:\s*1/);
+  assert.match(rule('.schedule-session'), /grid-column:\s*2/);
+  assert.match(rule('.schedule-speaker'), /grid-column:\s*3/);
+  assert.match(rule('.schedule-details'), /grid-column:\s*4/);
+  assert.match(mobile[1], /\.schedule-time,\s*\.schedule-session,\s*\.schedule-speaker,\s*\.schedule-details\s*\{[^}]*grid-column:\s*auto/);
+});
+
+test('registration CTA has responsive theme-consistent focus styling', () => {
+  const registration = rule('.workshop-registration');
+  assert.match(registration, /display:\s*inline-flex/);
+  assert.match(registration, /background:\s*var\(--ink\)/);
+  assert.match(registration, /color:\s*var\(--paper\)/);
+  assert.match(rule('.workshop-registration:focus-visible'), /outline:\s*3px solid var\(--ink\)/);
 });
 
 test('workshop chevron motion is removed for reduced-motion users', () => {

@@ -10,8 +10,8 @@
   'use strict';
 
   const labels = {
-    en: { upcoming: 'Upcoming workshops', past: 'Past workshops', unclassified: 'Other workshops', comingSoon: 'Coming soon', materials: 'Teaching materials', loadError: 'Could not load workshop', time: 'Time', session: 'Session', speaker: 'Instructor / speaker', details: 'Details' },
-    zh: { upcoming: '近期工作坊', past: '過往工作坊', unclassified: '其他工作坊', comingSoon: '即將上線', materials: '教學資料', loadError: '無法載入工作坊', time: '時間', session: '場次', speaker: '講者／講師', details: '內容' },
+    en: { upcoming: 'Upcoming workshops', past: 'Past workshops', unclassified: 'Other workshops', ungroupedPast: 'Other dates', comingSoon: 'Coming soon', materials: 'Teaching materials', loadError: 'Could not load workshop', time: 'Time', session: 'Session', speaker: 'Instructor / speaker', details: 'Details', register: 'Register' },
+    zh: { upcoming: '近期工作坊', past: '過往工作坊', unclassified: '其他工作坊', ungroupedPast: '其他日期', comingSoon: '即將上線', materials: '教學資料', loadError: '無法載入工作坊', time: '時間', session: '場次', speaker: '講者／講師', details: '內容', register: '報名' },
   };
 
   function escapeHTML(value) {
@@ -27,6 +27,16 @@
       return { url: url, external: false };
     }
     return null;
+  }
+
+  function safeExternalURL(value) {
+    const url = String(value || '').trim();
+    try {
+      const parsed = new URL(url);
+      return parsed.protocol === 'https:' && parsed.hostname ? url : null;
+    } catch (error) {
+      return null;
+    }
   }
 
   function parseISODate(value) {
@@ -61,8 +71,9 @@
       return data.status_override;
     }
 
+    const startDate = parseISODate(data.start_date);
     const endDate = parseISODate(data.end_date);
-    if (!endDate) return 'unclassified';
+    if (!startDate || !endDate) return 'unclassified';
 
     return endDate >= todayUTC(now) ? 'upcoming' : 'past';
   }
@@ -168,11 +179,14 @@
         escapeHTML(panelId) + '">' + escapeHTML(item.title) + '</button>'
       : '<span class="session-title">' + escapeHTML(item.title) + '</span>';
 
+    const speaker = String(item.speaker == null ? '' : item.speaker).trim();
+    const details = String(item.details == null ? '' : item.details).trim();
+
     return '<div class="schedule-row' + (teaching ? '' : ' is-non-teaching') + '">' +
       renderCell('schedule-time', context.text.time, escapeHTML(item.time)) +
       renderCell('schedule-session', context.text.session, title) +
-      renderCell('schedule-speaker', context.text.speaker, escapeHTML(item.speaker)) +
-      renderCell('schedule-details', context.text.details, escapeHTML(item.details)) +
+      (speaker ? renderCell('schedule-speaker', context.text.speaker, escapeHTML(speaker)) : '') +
+      (details ? renderCell('schedule-details', context.text.details, escapeHTML(details)) : '') +
       (teaching ? renderMaterials(item.materials, context.text, panelId) : '') + '</div>';
   }
 
@@ -205,6 +219,14 @@
     const slug = safeSlug(record.slug) + '-' + recordIndex;
     const panelId = slug + '-panel';
     const venue = data.venue ? '<span class="workshop-venue">' + escapeHTML(data.venue) + '</span>' : '';
+    const subtitle = data.subtitle ? '<span class="workshop-subtitle">' + escapeHTML(data.subtitle) + '</span>' : '';
+    const registrationURL = safeExternalURL(data.registration_url);
+    const registrationLabel = String(data.registration_label || '').trim() || text.register;
+    const registration = registrationURL
+      ? '<a class="workshop-registration" href="' + escapeHTML(registrationURL) +
+        '" target="_blank" rel="noopener noreferrer">' +
+        escapeHTML(registrationLabel) + '</a>'
+      : '';
     const intro = record.bodyHtml
       ? '<div class="workshop-intro markdown-body">' + record.bodyHtml + '</div>'
       : '';
@@ -214,9 +236,9 @@
 
     return '<article class="workshop-card"><button type="button" class="workshop-toggle" data-workshop-toggle ' +
       'aria-expanded="false" aria-controls="' + escapeHTML(panelId) + '"><span class="workshop-title">' +
-      escapeHTML(data.title) + '</span><span class="workshop-date">' + escapeHTML(formatDateRange(data, lang)) +
+      escapeHTML(data.title) + subtitle + '</span><span class="workshop-date">' + escapeHTML(formatDateRange(data, lang)) +
       '</span>' + venue + '<span class="workshop-status">' + escapeHTML(text[status]) + '</span></button>' +
-      '<div id="' + escapeHTML(panelId) + '" class="workshop-panel" hidden>' + intro + days + '</div></article>';
+      '<div id="' + escapeHTML(panelId) + '" class="workshop-panel" hidden>' + registration + intro + days + '</div></article>';
   }
 
   function renderGroup(title, recordsHtml, className) {
@@ -247,7 +269,14 @@
       return '<section class="workshop-month"><h3>' + escapeHTML(group.label) + '</h3>' +
         renderRecords(group.items, 'past') + '</section>';
     }).join('');
-    html += renderGroup(text.past, pastMonths, 'is-past');
+    const ungroupedPast = organized.past.filter(function (record) {
+      return !parseISODate(record.data.start_date);
+    });
+    const ungroupedPastHtml = ungroupedPast.length
+      ? '<section class="workshop-month is-ungrouped"><h3>' + escapeHTML(text.ungroupedPast) + '</h3>' +
+        renderRecords(ungroupedPast, 'past') + '</section>'
+      : '';
+    html += renderGroup(text.past, pastMonths + ungroupedPastHtml, 'is-past');
     html += renderGroup(text.unclassified, renderRecords(organized.unclassified, 'unclassified'), 'is-unclassified');
     html += failed.map(function (record) {
       const detail = record.errorMessage ? ': ' + escapeHTML(record.errorMessage) : '';

@@ -175,8 +175,8 @@ Workshop-level fields:
 | `subtitle` | Optional | Localized secondary title metadata. |
 | `venue` | Optional | Localized venue shown on the workshop card. |
 | `status_override` | Optional | Only `upcoming`, `past`, or empty (`""`). Empty or omitted means automatic status. |
-| `registration_url` | Optional | Registration link metadata. Use an HTTPS URL. |
-| `label` | Optional | Localized workshop label metadata. |
+| `registration_url` | Optional | Registration link shown in the expanded workshop panel. Use an HTTPS URL. |
+| `registration_label` | Optional | Localized registration link text; used only with `registration_url`. Defaults to **Register** / **報名**. |
 
 Each item in `days` has:
 
@@ -208,10 +208,11 @@ Each item in `materials` has:
 
 - `status_override` set to exactly `upcoming` or `past` wins even when the dates
   are invalid. An empty, omitted, or unsupported `status_override` value uses
-  automatic `end_date` classification instead.
-- For automatic classification, a valid `end_date` on or after the visitor's
+  automatic date classification instead.
+- For automatic classification, both `start_date` and `end_date` must be valid.
+  A valid `end_date` on or after the visitor's
   local today is upcoming; a date before today is past. Automatic
-  classification with a missing or invalid `end_date` remains visible under
+  classification with a missing or invalid `start_date` or `end_date` remains visible under
   **Other workshops** / **其他工作坊**.
 - Upcoming workshops are ordered by `start_date` earliest-first. Past workshops
   are ordered by `start_date` newest-first and grouped under a localized year
@@ -242,7 +243,6 @@ start_date: 2026-08-05
 end_date: 2026-08-06
 venue: NTU Humanities Building
 status_override: ""
-label: August workshop
 days:
   - date: 2026-08-05
     label: Day 1 · Foundations
@@ -283,7 +283,6 @@ start_date: 2026-08-05
 end_date: 2026-08-06
 venue: 臺大人文大樓
 status_override: ""
-label: 八月工作坊
 days:
   - date: 2026-08-05
     label: 第一天 · 基礎
