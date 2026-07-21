@@ -242,7 +242,6 @@ start_date: 2026-08-05
 end_date: 2026-08-06
 venue: NTU Humanities Building
 status_override: ""
-registration_url: https://example.org/register
 label: August workshop
 days:
   - date: 2026-08-05
@@ -284,7 +283,6 @@ start_date: 2026-08-05
 end_date: 2026-08-06
 venue: 臺大人文大樓
 status_override: ""
-registration_url: https://example.org/register
 label: 八月工作坊
 days:
   - date: 2026-08-05

@@ -2,6 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const vm = require('node:vm');
 const { coerce, parseFrontmatter } = require('../assets/frontmatter.js');
 
 const root = path.join(__dirname, '..');
@@ -60,6 +61,24 @@ test('frontmatter scalar coercion preserves behavior and returns fresh empty arr
   assert.ok(Array.isArray(first));
   assert.ok(Array.isArray(second));
   assert.notEqual(first, second);
+});
+
+test('frontmatter browser build exposes the parser global and parses nested empty arrays', () => {
+  const window = {};
+  const source = read('assets/frontmatter.js');
+  vm.runInNewContext(source, { window });
+  assert.equal(typeof window.CHAIFrontmatter.parseFrontmatter, 'function');
+  const parsed = window.CHAIFrontmatter.parseFrontmatter(`---
+days:
+  - date: 2026-08-05
+    sessions:
+      - title: Teaching
+        materials: []
+---
+Body.`);
+  assert.equal(parsed.data.days[0].date, '2026-08-05');
+  assert.ok(Array.isArray(parsed.data.days[0].sessions[0].materials));
+  assert.equal(parsed.data.days[0].sessions[0].materials.length, 0);
 });
 
 test('workshop manifest is valid and every bilingual workshop file exists', () => {

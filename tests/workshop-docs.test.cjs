@@ -93,9 +93,11 @@ test('guide provides synchronized, parser-compatible bilingual templates', () =>
   assert.deepEqual(templates.map(match => match[1]), ['en', 'zh']);
   const structures = [];
   for (const [, , yaml] of templates) {
-    for (const key of ['title', 'subtitle', 'start_date', 'end_date', 'venue', 'status_override', 'registration_url', 'label', 'days']) {
+    for (const key of ['title', 'subtitle', 'start_date', 'end_date', 'venue', 'status_override', 'label', 'days']) {
       assert.match(yaml, new RegExp('^' + key + ':', 'm'));
     }
+    assert.doesNotMatch(yaml, /registration_(?:url|label):/);
+    assert.doesNotMatch(yaml, /example\.org|https?:\/\/(?!drive\.google\.com\/file\/d\/FILE_ID\/view)/i);
     assert.equal((yaml.match(/^  - date:/gm) || []).length, 2);
     assert.equal((yaml.match(/^    sessions:/gm) || []).length, 2);
     assert.match(yaml, /assets\/materials\/2026\/2026-08-05-research-tools\/workbook\.pdf/);
@@ -115,6 +117,7 @@ test('guide provides synchronized, parser-compatible bilingual templates', () =>
   }
   assert.deepEqual(structures[0], structures[1], 'English and Chinese template keys must stay synchronized');
   assert.match(guide, /replace `?FILE_ID`?/i);
+  assert.doesNotMatch(guide, /example\.org/i);
 });
 
 test('guide manifest example demonstrates distinct same-month workshops', () => {
