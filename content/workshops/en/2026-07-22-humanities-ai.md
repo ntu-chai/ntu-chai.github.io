@@ -79,5 +79,3 @@ days:
         materials: []
 
 ---
-
-Teaching materials will be added as they become available.
