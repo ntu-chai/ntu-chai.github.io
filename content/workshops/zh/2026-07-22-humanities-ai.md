@@ -15,7 +15,9 @@ days:
         title: 人文 AI 導論
         speaker: 謝舒凱
         details: "Lab: Claude 概覽"
-        materials: []
+        materials:
+          - label: 人文 AI 導論
+            url: https://canva.link/157no9s7qtmsg2p
       - time: 10:50–11:00
         title: 拍照與茶敘休息
         kind: break
