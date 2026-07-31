@@ -1350,13 +1350,32 @@ body[data-theme="dark"] .markdown-body code {
 /* ── People grid (team:) ──────────────────────────────────── */
 /* Lives inside .page-structured (full main-width), so cards naturally
    land in landscape proportions on desktop (~360 × 200px). */
+.people-groups {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.25rem);
+  width: 100%;
+}
+.people-group-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 0.75rem;
+  color: var(--burnt);
+  font-size: 0.72rem;
+}
+.people-group-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--hairline);
+}
 .people-grid {
   --people-line: rgba(46, 58, 31, 0.28);
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 0;
   border-top: 1px solid var(--people-line);
   border-left: 1px solid var(--people-line);
@@ -1376,6 +1395,7 @@ body[data-theme="dark"] .people-grid {
 }
 .markdown-body .people-grid { max-width: none; }
 .people-grid .person {
+  grid-column: span 2;
   padding: clamp(1.5rem, 2.6vw, 2.2rem);
   border-right: 1px solid var(--people-line);
   border-bottom: 1px solid var(--people-line);
@@ -1419,8 +1439,15 @@ body[data-theme="dark"] .people-grid {
   font-style: normal;
 }
 
+/* Let a two-card final row share the full width instead of leaving a blank cell. */
+.people-grid .person:nth-last-child(2):nth-child(3n + 1),
+.people-grid .person:last-child:nth-child(3n + 2) {
+  grid-column: span 3;
+}
+
 @media (max-width: 820px) {
   .people-grid { grid-template-columns: repeat(2, 1fr); }
+  .people-grid .person { grid-column: auto; }
 }
 @media (max-width: 520px) {
   .people-grid { grid-template-columns: 1fr; }

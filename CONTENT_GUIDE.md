@@ -343,9 +343,10 @@ Used in `team.md`. Each entry becomes one card.
 
 ```yaml
 team:
-  - role: Principal Investigator
+  - group: Leadership
+    role: Principal Investigator
     name: Cheng Yu-yu
-    dept: Department of Chinese Literature / Dean, College of Liberal Arts
+    dept: Department of Chinese Literature
     url: https://example.edu/profile
   - role: Co-PI
     name: Wu Tsung-lin
@@ -354,6 +355,9 @@ team:
 ```
 
 - `role` shows in golden small-caps at the top of the card
+- `group` is optional. When present, cards sharing the same value render under
+  that localized section heading. Group order follows the first occurrence in
+  the array. Omit it to keep the original single-grid layout.
 - `name` is the large display name. If the entry has `url`, the name becomes
   a clickable link.
 - `url` is optional. Use the person's faculty page, lab page, or personal

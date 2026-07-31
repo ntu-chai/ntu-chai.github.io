@@ -244,7 +244,7 @@
   }
 
   function renderTeamGrid(team) {
-    const cards = team.map(p => {
+    const renderCards = people => people.map(p => {
       const url = p.url || p.href || p.website || '';
       const name = escapeHTML(p.name || '');
       const nameHtml = url
@@ -258,7 +258,28 @@
         </li>
       `;
     }).join('');
-    return `<ol class="people-grid">${cards}</ol>`;
+
+    if (!team.some(p => p.group)) {
+      return `<ol class="people-grid">${renderCards(team)}</ol>`;
+    }
+
+    const groups = [];
+    team.forEach(person => {
+      const label = person.group || '';
+      let group = groups.find(item => item.label === label);
+      if (!group) {
+        group = { label, people: [] };
+        groups.push(group);
+      }
+      group.people.push(person);
+    });
+
+    return `<div class="people-groups">${groups.map(group => `
+      <section class="people-group">
+        ${group.label ? `<h2 class="people-group-title mono">${escapeHTML(group.label)}</h2>` : ''}
+        <ol class="people-grid">${renderCards(group.people)}</ol>
+      </section>
+    `).join('')}</div>`;
   }
 
   function renderLayerStack(layers) {
