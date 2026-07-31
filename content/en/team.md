@@ -3,12 +3,12 @@ title: People
 subtitle: Researchers
 lede: A hub-and-spoke humanities compute center.
 team:
-  - group: Leadership
+  - group: Project Coordination
     role: Principal Investigator
     name: Huai-Chen Kan
     dept: Department of History / Dean, College of Liberal Arts
     url: "https://scholars.lib.ntu.edu.tw/entities/person/647951e4-e9c8-4e7b-a0cc-a4a46fa84c33"
-  - group: Leadership
+  - group: Project Coordination
     role: Executive Director
     name: Shu-Kai Hsieh
     dept: Graduate Institute of Linguistics

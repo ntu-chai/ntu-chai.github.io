@@ -3,12 +3,12 @@ title: 計畫成員
 subtitle: 相關研究人員
 lede: 人文運算中心：人類判斷 × AI 運算
 team:
-  - group: 計畫領導
+  - group: 總籌
     role: 總主持人
     name: 甘懷真
     dept: 歷史系 / 文學院院長
     url: "https://scholars.lib.ntu.edu.tw/entities/person/647951e4-e9c8-4e7b-a0cc-a4a46fa84c33"
-  - group: 計畫領導
+  - group: 總籌
     role: 執行長
     name: 謝舒凱
     dept: 語言所
