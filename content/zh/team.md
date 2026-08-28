@@ -28,6 +28,11 @@ team:
     name: 王梅霞
     dept: 人類學系
     url: "https://scholars.lib.ntu.edu.tw/entities/person/fb7a7624-d1c3-4cdc-a26c-ad2d0132ea9e"
+  - group: 共同主持人
+    role: 共同主持人
+    name: 許雅惠
+    dept: 歷史系
+    url: "https://scholars.lib.ntu.edu.tw/entities/person/f8fb7465-1b7b-49c9-8d97-d74ed27e8583"
   - group: 實驗室團隊
     role: 副執行長
     name: 王伯雅
@@ -43,7 +48,6 @@ team:
     name: 黃子倩
     dept: "外文系"
 ---
-
 
 
 

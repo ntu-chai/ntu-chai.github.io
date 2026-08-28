@@ -1416,6 +1416,7 @@ body[data-theme="dark"] .people-grid {
   font-weight: 600;
   font-size: clamp(1.4rem, 2.3vw, 1.85rem);
   line-height: 1.15;
+  white-space: nowrap;
   margin-bottom: 0.45rem;
   color: var(--fg);
   font-variation-settings: "opsz" 36;
@@ -1443,6 +1444,16 @@ body[data-theme="dark"] .people-grid {
 .people-grid .person:nth-last-child(2):nth-child(3n + 1),
 .people-grid .person:last-child:nth-child(3n + 2) {
   grid-column: span 3;
+}
+
+/* Keep a four-person group on one balanced row on wide screens. */
+@media (min-width: 821px) {
+  .people-grid:has(> .person:nth-child(4):last-child) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .people-grid:has(> .person:nth-child(4):last-child) > .person {
+    grid-column: auto;
+  }
 }
 
 @media (max-width: 820px) {

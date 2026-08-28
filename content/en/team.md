@@ -28,6 +28,11 @@ team:
     name: Mei-Hsia Wang
     dept: Department of Anthropology
     url: "https://scholars.lib.ntu.edu.tw/entities/person/fb7a7624-d1c3-4cdc-a26c-ad2d0132ea9e"
+  - group: Co-Principal Investigators
+    role: Co-PI
+    name: Ya-Hwei Hsu
+    dept: Department of History
+    url: "https://scholars.lib.ntu.edu.tw/entities/person/f8fb7465-1b7b-49c9-8d97-d74ed27e8583"
   - group: Lab Team
     role: Deputy Executive Director
     name: Po-Ya Angela Wang
