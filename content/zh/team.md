@@ -33,6 +33,11 @@ team:
     name: 許雅惠
     dept: 歷史系
     url: "https://scholars.lib.ntu.edu.tw/entities/person/f8fb7465-1b7b-49c9-8d97-d74ed27e8583"
+  - group: 共同主持人
+    role: 共同主持人
+    name: 黃恆綜
+    dept: 外文系
+    url: "https://dannyhuang123.wixsite.com/website"
   - group: 實驗室團隊
     role: 副執行長
     name: 王伯雅

@@ -33,6 +33,11 @@ team:
     name: Ya-Hwei Hsu
     dept: Department of History
     url: "https://scholars.lib.ntu.edu.tw/entities/person/f8fb7465-1b7b-49c9-8d97-d74ed27e8583"
+  - group: Co-Principal Investigators
+    role: Co-PI
+    name: Heng-Tsung Danny Huang
+    dept: Department of Foreign Languages and Literatures
+    url: "https://dannyhuang123.wixsite.com/website"
   - group: Lab Team
     role: Deputy Executive Director
     name: Po-Ya Angela Wang
