@@ -13,8 +13,7 @@ contact:
 
 | Date | Event | Venue / notes |
 | --- | --- | --- |
-| Monday, June 29, 2026 | University of Illinois Urbana-Champaign (UIUC) campus visit; CHAI Center Room 513 opening ceremony; CHAT exchange session | NTU Humanities Building, Room 513 |
-| Wednesday, July 22-Thursday, July 23, 2026 | July workshop for humanities scholars | NTU Humanities Building, B1 **Registration now open!** |
+| Tuesday, September 15, 2026 | September workshop for humanities scholars | NTU Humanities Building, B1 113-2 · [Registration form](https://docs.google.com/forms/d/e/1FAIpQLSeNNpDnxPO8NS9GmyPssJYITMVC9efUodeRPk1ZL1fAQn0l5w/viewform) **Registration now open!** |
 
 ### Past events
 
@@ -30,6 +29,15 @@ Venue: College of Liberal Arts
 **2026 Graduate Institute of Linguistics AI Camp**
 Venue: Wanggu
 
+#### JUN 2026 — Visit
+**University of Illinois Urbana-Champaign (UIUC) campus visit; CHAI Center Room 513 opening ceremony; CHAT exchange session**
+Venue: NTU Humanities Building, Room 513
+
+#### JUL 2026 — Workshop
+**July workshop for humanities scholars**
+Venue: NTU Humanities Building, B1
+
+<!-- HIDDEN FOR NOW — restore by removing this comment wrapper
 ## Monthly reports
 
 Brief monthly records of CHAI activities, events, and lab progress.
@@ -37,6 +45,7 @@ Brief monthly records of CHAI activities, events, and lab progress.
 | Month | Report | Notes |
 | --- | --- | --- |
 | June 2026 | [View report](https://drive.google.com/file/d/1oThD1pLEKAPpiPzgTDGJKPyprXgwWNu0/view?usp=sharing) | PDF |
+-->
 
 
 ## Open calls
