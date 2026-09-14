@@ -13,7 +13,7 @@ contact:
 
 | Date | Event | Venue / notes |
 | --- | --- | --- |
-| Tuesday, September 15, 2026 | September workshop for humanities scholars | NTU Humanities Building, B1 113-2 · [Registration form](https://docs.google.com/forms/d/e/1FAIpQLSeNNpDnxPO8NS9GmyPssJYITMVC9efUodeRPk1ZL1fAQn0l5w/viewform) **Registration now open!** |
+| Tuesday, September 15, 2026 | September workshop for humanities scholars | NTU Humanities Building, B1 113-2 |
 
 ### Past events
 
@@ -28,6 +28,10 @@ Venue: College of Liberal Arts
 #### JUN 2026 — Workshop
 **2026 Graduate Institute of Linguistics AI Camp**
 Venue: Wanggu
+
+#### JUN 2026 — Forum
+**Asian Deans' Forum, Hong Kong**
+Venue: Hong Kong
 
 #### JUN 2026 — Visit
 **University of Illinois Urbana-Champaign (UIUC) campus visit; CHAI Center Room 513 opening ceremony; CHAT exchange session**
