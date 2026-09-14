@@ -1,6 +1,7 @@
 {
   "comment": "Workshop manifest. Each slug must have matching content/workshops/en/<slug>.md and content/workshops/zh/<slug>.md files.",
   "workshops": [
-    "2026-07-22-humanities-ai"
+    "2026-07-22-humanities-ai",
+    "2026-09-15-humanities-ai"
   ]
 }
