@@ -23,7 +23,9 @@ days:
         title: Getting Started with Claude
         speaker: Po-Ya Angela Wang
         details: "Lab: system setup, concept introduction, Dispatch, and Claude Design demonstration"
-        materials: []
+        materials:
+          - label: Getting Started with Claude
+            url: https://drive.google.com/file/d/1dXUPs2qNxY6qtz7UPFLK0282V_0UmFY8/view?usp=sharing
       - time: 12:00–13:00
         title: Lunch break
         kind: meal
@@ -31,7 +33,9 @@ days:
         title: Foundational Research Applications with Claude
         speaker: 陳品而
         details: "Lab: Claude Code"
-        materials: []
+        materials:
+          - label: Foundational Research Applications with Claude
+            url: https://docs.google.com/presentation/d/1Ut2T1gpaSY7-2qWNMTMqC4wGOWlmqOPh/edit?usp=sharing&ouid=102332303811297753027&rtpof=true&sd=true
       - time: 14:10–15:10
         title: Building an AI Research Workflow
         speaker: 陳韋伶
@@ -44,7 +48,9 @@ days:
         title: Claude × Research Agents
         speaker: Po-Ya Angela Wang
         details: "Lab: integrated practice and research-idea Artifacts demonstration"
-        materials: []
+        materials:
+          - label: Claude × Research Agents
+            url: https://drive.google.com/file/d/1dXUPs2qNxY6qtz7UPFLK0282V_0UmFY8/view?usp=sharing
       - time: 16:30
         title: Closing remarks
         kind: closing

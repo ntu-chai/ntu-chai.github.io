@@ -23,7 +23,9 @@ days:
         title: Claude 初探
         speaker: 王伯雅
         details: "Lab: 系統設定、概念簡介、Dispatch 與 Claude Design 展示"
-        materials: []
+        materials:
+          - label: Claude 初探
+            url: https://drive.google.com/file/d/1dXUPs2qNxY6qtz7UPFLK0282V_0UmFY8/view?usp=sharing
       - time: 12:00–13:00
         title: 午餐休息
         kind: meal
@@ -31,7 +33,9 @@ days:
         title: Claude 研究基礎應用
         speaker: 陳品而
         details: "Lab: Claude Code"
-        materials: []
+        materials:
+          - label: Claude 研究基礎應用
+            url: https://docs.google.com/presentation/d/1Ut2T1gpaSY7-2qWNMTMqC4wGOWlmqOPh/edit?usp=sharing&ouid=102332303811297753027&rtpof=true&sd=true
       - time: 14:10–15:10
         title: 用 AI 打造研究工作流
         speaker: 陳韋伶
@@ -44,7 +48,9 @@ days:
         title: Claude × 研究智能體 Agents
         speaker: 王伯雅
         details: "Lab: 整合實作＋研究想法展示 Artifacts"
-        materials: []
+        materials:
+          - label: Claude × 研究智能體 Agents
+            url: https://drive.google.com/file/d/1dXUPs2qNxY6qtz7UPFLK0282V_0UmFY8/view?usp=sharing
       - time: 16:30
         title: 小結
         kind: closing
