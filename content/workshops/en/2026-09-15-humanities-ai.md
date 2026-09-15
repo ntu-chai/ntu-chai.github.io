@@ -40,7 +40,9 @@ days:
         title: Building an AI Research Workflow
         speaker: 陳韋伶
         details: "Lab: Claude Agent"
-        materials: []
+        materials:
+          - label: "Never Get Lost in Research: Build Your Workflow with AI"
+            url: https://docs.google.com/presentation/d/1AC_3RgRgmY8boL87ISIR30Nlbi7MS8pI7bClTI3qJak/edit?usp=sharing
       - time: 15:10–15:30
         title: Tea break
         kind: break
