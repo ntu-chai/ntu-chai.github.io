@@ -15,7 +15,9 @@ days:
         title: Introduction to AI for the Humanities
         speaker: Shu-Kai Hsieh
         details: "Lab: Claude overview"
-        materials: []
+        materials:
+          - label: Introduction to AI for the Humanities
+            url: https://canva.link/d92bswd8tcll2oc
       - time: 10:50–11:00
         title: Group photo and tea break
         kind: break
