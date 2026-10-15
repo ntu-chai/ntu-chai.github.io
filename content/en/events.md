@@ -13,7 +13,7 @@ contact:
 
 | Date | Event | Venue / notes |
 | --- | --- | --- |
-| Tuesday, September 15, 2026 | September workshop for humanities scholars | NTU Humanities Building, B1 113-2 |
+| Friday, October 16, 2026 | October workshop for humanities scholars | NTU Humanities Building, B1 113-2 |
 
 ### Past events
 
@@ -40,6 +40,10 @@ Venue: NTU Humanities Building, Room 513
 #### JUL 2026 — Workshop
 **July workshop for humanities scholars**
 Venue: NTU Humanities Building, B1
+
+#### SEP 2026 — Workshop
+**September workshop for humanities scholars**
+Venue: NTU Humanities Building, B1 113-2
 
 <!-- HIDDEN FOR NOW — restore by removing this comment wrapper
 ## Monthly reports
