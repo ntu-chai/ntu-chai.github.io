@@ -23,7 +23,9 @@ days:
         title: Claude 初探
         speaker: 王伯雅
         details: "Lab: 系統設定、概念簡介與展示"
-        materials: []
+        materials:
+          - label: Claude 初探
+            url: https://drive.google.com/file/d/1oZmMr9gPNQlhUHYWbYXC-RmBKl-_bJs9/view?usp=sharing
       - time: 12:00–13:00
         title: 午餐休息
         kind: meal
@@ -31,14 +33,18 @@ days:
         title: Claude 教學增能
         speaker: 陳品而
         details: 含 Gemini Notebook
-        materials: []
+        materials:
+          - label: Claude 教學增能
+            url: https://docs.google.com/presentation/d/1Nxx7BZwE6AyMLmVBXlJIBfI8kLXpCExKD60rGr5CEb8/edit?usp=sharing
       - time: 14:00–14:10
         title: 休息
         kind: break
       - time: 14:10–15:10
         title: Claude 研究工作流實作
         speaker: 王伯雅
-        materials: []
+        materials:
+          - label: Claude 研究工作流實作
+            url: https://drive.google.com/file/d/1Nra5pWFQb162qXAKUXjiH3sxaXgJDDDV/view?usp=sharing
       - time: 15:10–15:30
         title: 茶敘休息
         kind: break
@@ -46,7 +52,9 @@ days:
         title: Claude 書目知識管理
         speaker: 陳韋伶
         details: 含 Zotero
-        materials: []
+        materials:
+          - label: Claude 書目知識管理
+            url: https://docs.google.com/presentation/d/1Cw_rcdHhi64bB-KX-P7slE5puTwe5Ah9LBPOsrpqhXs/edit?usp=sharing
       - time: 16:30
         title: 小結
         kind: closing
