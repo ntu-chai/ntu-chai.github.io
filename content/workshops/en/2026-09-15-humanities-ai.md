@@ -60,3 +60,7 @@ days:
         kind: closing
 
 ---
+
+A single teaching day. It opens with an introduction to AI for the humanities and a first look at Claude, moves in the afternoon to foundational research applications and Claude Code, then turns to building your own AI research workflow, and closes with hands-on integration and research artifacts in Claude × Research Agents.
+
+Organised by the College of Liberal Arts, NTU · CHAI Co-Intelligence Humanities AI Future Lab

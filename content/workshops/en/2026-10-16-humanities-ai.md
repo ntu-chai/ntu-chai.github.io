@@ -62,3 +62,7 @@ days:
         kind: closing
 
 ---
+
+A single teaching day focused on hands-on tools. The morning pairs Shu-Kai Hsieh's overview of AI for the humanities with Po-Ya Angela Wang's session on system setup and demonstration. The afternoon runs through enhancing teaching with Claude (including Gemini Notebook), hands-on research workflows, and bibliographic knowledge management with Claude and Zotero, before a closing wrap-up.
+
+Organised by the College of Liberal Arts, NTU · CHAI Co-Intelligence Humanities AI Future Lab

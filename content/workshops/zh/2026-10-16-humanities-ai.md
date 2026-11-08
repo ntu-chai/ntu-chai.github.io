@@ -62,3 +62,7 @@ days:
         kind: closing
 
 ---
+
+一天的教學日，聚焦工具實作。上午由謝舒凱老師概覽人文 AI 與 Claude，再由王伯雅帶系統設定與概念展示；下午依序是 Claude 教學增能（含 Gemini Notebook）、Claude 研究工作流實作，以及陳韋伶的 Claude 書目知識管理（含 Zotero），最後以小結收尾。
+
+主辦單位：臺灣大學文學院 · CHAI 共智人文 AI 未來實驗室

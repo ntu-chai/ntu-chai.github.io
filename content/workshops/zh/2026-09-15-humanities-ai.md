@@ -60,3 +60,7 @@ days:
         kind: closing
 
 ---
+
+一天的教學日。從人文 AI 導論與 Claude 初探入手，下午進到研究基礎應用與 Claude Code，接著由陳韋伶帶大家用 AI 打造自己的研究工作流，最後以 Claude × 研究智能體 Agents 的整合實作與研究想法展示收尾。
+
+主辦單位：臺灣大學文學院 · CHAI 共智人文 AI 未來實驗室

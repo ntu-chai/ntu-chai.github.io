@@ -79,3 +79,7 @@ days:
         materials: []
 
 ---
+
+A two-day workshop. The first day is a teaching day, opening with an introduction to AI for the humanities and a first look at Claude, then moving through foundational research applications and building an AI research workflow, and closing with hands-on integration in Claude × Research Agents. The second day is an exchange day: the BigObject team shares research and applications in humanities AI, followed by open collaboration matching and research consultations for faculty interested in working with the CHAI team.
+
+Organised by the College of Liberal Arts, NTU · CHAI Co-Intelligence Humanities AI Future Lab
