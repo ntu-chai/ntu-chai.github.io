@@ -37,7 +37,7 @@ days:
         speaker: 連大成
         materials:
           - label: 人文 AI 本地算力簡介（投影片）
-            url: assets/materials/2026/2026-11-09-humanities-ai/local-compute-slides/
+            url: https://ntu-chai.github.io/assets/materials/2026/2026-11-09-humanities-ai/local-compute-slides/
       - time: 15:00–15:30
         title: 茶敘休息
         kind: break
