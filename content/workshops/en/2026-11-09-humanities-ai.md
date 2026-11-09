@@ -35,7 +35,9 @@ days:
       - time: 13:30–15:00
         title: Introduction to Local Computing for Humanities AI
         speaker: Da-Chen Lian
-        materials: []
+        materials:
+          - label: Introduction to Local Computing for Humanities AI (slides)
+            url: assets/materials/2026/2026-11-09-humanities-ai/local-compute-slides/
       - time: 15:00–15:30
         title: Tea break
         kind: break
