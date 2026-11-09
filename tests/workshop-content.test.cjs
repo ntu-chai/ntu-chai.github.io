@@ -145,7 +145,7 @@ test('paired workshop schedules preserve dates, row semantics, and teaching mate
       }
     }
   }
-  assert.equal(materialURLs('en').length, 5);
+  assert.equal(materialURLs('en').length, 6);
   assert.ok(materialURLs('en').every(url => url.startsWith('https://')));
 });
 

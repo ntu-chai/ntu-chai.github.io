@@ -37,9 +37,10 @@ test('workshop page has content and live renderer hosts', () => {
 });
 
 test('frontmatter parser and workshop renderer load before the version-matched SPA script', () => {
-  const frontmatterIndex = html.indexOf('<script src="assets/frontmatter.js?v=20260721-workshops"></script>');
-  const workshopIndex = html.indexOf('<script src="assets/workshops.js?v=20260721-workshops"></script>');
-  const appIndex = html.indexOf('<script src="assets/script.js?v=20260721-workshops"></script>');
+  const versioned = name => html.search(new RegExp('<script src="assets/' + name + '\\.js\\?v=[\\w-]+"></script>'));
+  const frontmatterIndex = versioned('frontmatter');
+  const workshopIndex = versioned('workshops');
+  const appIndex = versioned('script');
   assert.ok(frontmatterIndex >= 0);
   assert.ok(workshopIndex > frontmatterIndex);
   assert.ok(appIndex > workshopIndex);

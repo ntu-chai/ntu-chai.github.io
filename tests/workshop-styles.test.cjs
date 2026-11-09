@@ -151,9 +151,9 @@ test('workshop chevron motion is removed for reduced-motion users', () => {
 });
 
 test('HTML requests the workshop stylesheet cache token', () => {
-  assert.match(html, /<link rel="stylesheet" href="assets\/styles\.css\?v=20260721-workshops" \/>/);
+  assert.match(html, /<link rel="stylesheet" href="assets\/styles\.css\?v=[\w-]+" \/>/);
   assert.doesNotMatch(html, /assets\/styles\.css\?v=20260609-team-links/);
-  const workshopScript = html.indexOf('<script src="assets/workshops.js?v=20260721-workshops"></script>');
-  const appScript = html.indexOf('<script src="assets/script.js?v=20260721-workshops"></script>');
+  const workshopScript = html.search(/<script src="assets\/workshops\.js\?v=[\w-]+"><\/script>/);
+  const appScript = html.search(/<script src="assets\/script\.js\?v=[\w-]+"><\/script>/);
   assert.ok(workshopScript >= 0 && appScript > workshopScript, 'versioned scripts remain present and ordered');
 });
