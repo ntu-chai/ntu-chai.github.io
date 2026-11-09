@@ -2086,6 +2086,18 @@ body[data-theme="dark"] .media-figure {
   font-weight: 600;
   text-align: left;
 }
+/* On wide screens the name sits on the time and speaker's line; an invisible
+   layer keeps the tap area 44px tall without making the row taller. */
+.schedule-row .session-toggle {
+  position: relative;
+  min-height: 0;
+}
+.schedule-row .session-toggle::before {
+  content: "";
+  position: absolute;
+  inset: calc(50% - 22px) 0 auto;
+  height: 44px;
+}
 .session-toggle:hover {
   color: var(--ink);
   text-decoration: underline;
@@ -2159,6 +2171,8 @@ body[data-theme="dark"] .schedule-row.is-non-teaching {
     padding: 0.45rem 0;
   }
   .schedule-row > :not(.materials-panel) { padding: 0.45rem 0.8rem; }
+  .schedule-row .session-toggle { min-height: 44px; }
+  .schedule-row .session-toggle::before { content: none; }
   .schedule-time,
   .schedule-session,
   .schedule-speaker,
