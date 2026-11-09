@@ -1,1 +1,0 @@
-import{I as e,S as t,h as n,v as r,z as i}from"./modules/shiki-3nYvmTLQ.js";import{Y as a}from"./index-BdZ2zo9y.js";var o={class:`try`},s=t({__name:`TryIt`,setup(t){let{$slidev:s,$nav:c,$clicksContext:l,$clicks:u,$page:d,$renderContext:f,$frontmatter:p}=a();return(t,a)=>(e(),r(`p`,o,[a[0]||=n(`span`,{class:`try-tag`},`Try it`,-1),i(t.$slots,`default`)]))}});export{s as t};
