@@ -16,7 +16,9 @@ days:
         title: 致詞
         speaker: 謝舒凱
         details: "Lab: Claude 概覽"
-        materials: []
+        materials:
+          - label: 致詞
+            url: https://canva.link/vfcs9l2nfhdpqhp
       - time: 10:15–10:30
         title: 拍照與茶敘休息
         kind: break

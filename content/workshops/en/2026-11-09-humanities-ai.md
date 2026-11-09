@@ -16,7 +16,9 @@ days:
         title: Opening remarks
         speaker: Shu-Kai Hsieh
         details: "Lab: Claude overview"
-        materials: []
+        materials:
+          - label: Opening remarks
+            url: https://canva.link/vfcs9l2nfhdpqhp
       - time: 10:15–10:30
         title: Group photo and tea break
         kind: break
